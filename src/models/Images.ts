@@ -10,14 +10,6 @@ const paginationSchema = z.object({
   next_url: z.string().url().optional(),
 });
 
-// Schema for artwork with basic fields
-const artworkSchema = z.object({
-  id: z.number(),
-  title: z.string(),
-  image_id: z.string(),
-  blurredDataUrl: z.string().optional(),
-});
-
 // Schema for API response info
 const infoSchema = z.object({
   license_text: z.string(),
@@ -38,6 +30,17 @@ const thumbnailSchema = z.object({
   height: z.number(),
   alt_text: z.string(),
 });
+
+// Schema for artwork with basic fields
+const artworkSchema = z.object({
+  id: z.number(),
+  thumbnail: thumbnailSchema,
+  title: z.string(),
+  image_id: z.string(),
+  blurredDataUrl: z.string().optional(),
+});
+
+export type ArtworkShort = z.infer<typeof artworkSchema>;
 
 // Schema for complete artwork with additional fields
 const completeArtworkSchema = z.object({
