@@ -10,13 +10,14 @@ type Props = {
 
 export default function ImgContainer({ artwork }: Props) {
   return (
-    <div key={artwork.id} className="h-64 bg-gray-200 rounded-xl">
+    <div key={artwork.id} className="relative p-4 rounded-xl">
       <Image
         loader={myImageLoader}
         src={`${artwork.image_id}${RECOMMENDED_SIZE}`}
         alt={artwork.thumbnail.alt_text}
-        width={250}
         height={250}
+        width={250}
+        className="w-full h-full object-cover"
       />
     </div>
   );
