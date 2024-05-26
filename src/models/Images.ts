@@ -47,7 +47,7 @@ export const apiResponseShortSchema = z.object({
   pagination: paginationSchema,
   data: z.array(artworkSchemaShort).transform((items) =>
     // Filter out items missing required fields
-    items.filter((item) => item.image_id !== null && item.thumbnail !== null)
+    items.filter((item) => item.image_id !== null)
   ),
   info: infoSchema,
   config: configSchema,
