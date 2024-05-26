@@ -7,7 +7,7 @@ import React from "react";
 export default async function Gallery() {
   let limit = 83;
   const url =
-    "https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail&limit=" +
+    "https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=" +
     limit.toString();
   // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
 
@@ -28,18 +28,23 @@ export default async function Gallery() {
   }
 
   return (
-    <section className="px-2 my-3 flex gap-2 border-2">
+    <section className="px-2 my-3 flex">
       {columnSets.map((columnSet, setIndex) => (
-        <div key={setIndex} className="flex-col gap-2">
-          {columnSet.map((artwork, index) => (
-            <div
-              key={index}
-              // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
-              className=""
-            >
-              <ImgContainer artwork={artwork} />
-            </div>
-          ))}
+        <div
+          key={setIndex}
+          className="flex-col gap-2 border-gray-100 border-r last:border-r-0"
+        >
+          <div className="m-6">
+            {columnSet.map((artwork, index) => (
+              <div
+                key={index}
+                // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
+                className="border-b border-gray-100 last:border-b-0"
+              >
+                <ImgContainer artwork={artwork} />
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </section>

@@ -36,6 +36,8 @@ const artworkSchemaShort = z.object({
   id: z.number(),
   thumbnail: thumbnailSchema.nullable(),
   title: z.string(),
+  artist_title: z.string().nullable(),
+  date_display: z.string().nullable(),
   image_id: z.string().nullable(),
   blurredDataUrl: z.string().optional(),
 });
