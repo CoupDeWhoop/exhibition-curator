@@ -14,7 +14,8 @@ export default function ImgContainer({ artwork }: Props) {
       <Image
         loader={myImageLoader}
         src={`${artwork.image_id}${RECOMMENDED_SIZE}`}
-        alt={artwork.thumbnail.alt_text}
+        // (?.) ensures that you safely access alt_text even if thumbnail is null or undefined. avoids error
+        alt={artwork.thumbnail?.alt_text || artwork.title}
         height={250}
         width={250}
         className="w-full h-full object-cover"

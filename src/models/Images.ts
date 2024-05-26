@@ -32,15 +32,28 @@ const thumbnailSchema = z.object({
 });
 
 // Schema for artwork with basic fields
-const artworkSchema = z.object({
+const artworkSchemaShort = z.object({
   id: z.number(),
-  thumbnail: thumbnailSchema,
+  thumbnail: thumbnailSchema.nullable(),
   title: z.string(),
-  image_id: z.string(),
+  image_id: z.string().nullable(),
   blurredDataUrl: z.string().optional(),
 });
 
-export type ArtworkShort = z.infer<typeof artworkSchema>;
+export type ArtworkShort = z.infer<typeof artworkSchemaShort>;
+
+// Schema for the API response with selected fields
+export const apiResponseShortSchema = z.object({
+  pagination: paginationSchema,
+  data: z.array(artworkSchemaShort).transform((items) =>
+    // Filter out items missing required fields
+    items.filter((item) => item.image_id !== null && item.thumbnail !== null)
+  ),
+  info: infoSchema,
+  config: configSchema,
+});
+
+export type ArtworksResultsShort = z.infer<typeof apiResponseShortSchema>;
 
 // Schema for complete artwork with additional fields
 const completeArtworkSchema = z.object({
@@ -56,16 +69,6 @@ const completeArtworkSchema = z.object({
   }),
   blurredDataUrl: z.string().optional(),
 });
-
-// Schema for the API response with selected fields
-export const apiResponseShortSchema = z.object({
-  pagination: paginationSchema,
-  data: z.array(artworkSchema),
-  info: infoSchema,
-  config: configSchema,
-});
-
-export type ArtworksResultsShort = z.infer<typeof apiResponseShortSchema>;
 
 // Schema for the API response with pagination and artworks data
 export const apiResponseCompleteSchema = z.object({
