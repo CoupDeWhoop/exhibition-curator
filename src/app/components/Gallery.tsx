@@ -32,14 +32,14 @@ export default async function Gallery() {
       {columnSets.map((columnSet, setIndex) => (
         <div
           key={setIndex}
-          className="flex-col gap-2 border-gray-100 border-r last:border-r-0"
+          className="flex-col gap-2 border-gray-100 border-r-2 last:border-r-0"
         >
           <div className="m-6">
             {columnSet.map((artwork, index) => (
               <div
                 key={index}
                 // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
-                className="border-b border-gray-100 last:border-b-0"
+                className="border-b-2 border-gray-100 last:border-b-0"
               >
                 <ImgContainer artwork={artwork} />
               </div>
