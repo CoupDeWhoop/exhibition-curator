@@ -31,10 +31,11 @@ export default async function Gallery() {
   }
 
   return (
-    <section className="my-3 flex">
+    <section className="my-3 flex min-w-1">
       {columnSets.map((columnSet, setIndex) => (
-        <div className=" border-gray-100 px-3 border-r-2 last:border-r-0">
-          <div key={`column-${setIndex}`} className="flex-1 gap-2 min-w-0 ">
+        <div className="flex-1  border-gray-100 px-3 border-r-2 last:border-r-0 min-w-1">
+          {/* the extra div is just for creating a gap in the image borders */}
+          <div key={`column-${setIndex}`} className="gap-2">
             {columnSet.map((artwork, index) => (
               <div
                 key={`item-${setIndex}-${index}`}
