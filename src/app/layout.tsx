@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond } from "@next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
 const cg = Cormorant_Garamond({
-  weight: ["300"],
+  weight: ["300", "600"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cg.className}>
       <body>
+        <Navbar />
         <main className="max-w-7xl mx-auto">{children}</main>
       </body>
     </html>

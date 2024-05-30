@@ -31,16 +31,13 @@ export default async function Gallery() {
   }
 
   return (
-    <section className="px-2 my-3 flex">
+    <section className="my-3 flex">
       {columnSets.map((columnSet, setIndex) => (
-        <div
-          key={setIndex}
-          className="flex-col gap-2 border-gray-100 border-r-2 last:border-r-0"
-        >
-          <div className="m-6">
-            {columnSet.map((artwork, i) => (
+        <div className=" border-gray-100 px-3 border-r-2 last:border-r-0">
+          <div key={`column-${setIndex}`} className="flex-1 gap-2 min-w-0 ">
+            {columnSet.map((artwork, index) => (
               <div
-                key={i}
+                key={`item-${setIndex}-${index}`}
                 // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
                 className="border-b-2 border-gray-100 last:border-b-0"
               >

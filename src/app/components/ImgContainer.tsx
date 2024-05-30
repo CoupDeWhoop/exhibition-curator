@@ -10,7 +10,7 @@ type Props = {
 
 export default function ImgContainer({ artwork }: Props) {
   return (
-    <div className="p-4 py-6 rounded-xl group">
+    <div className="p-1 py-6 rounded-xl group">
       <Image
         loader={chicagoImageLoader}
         src={`${artwork.image_id}${RECOMMENDED_SIZE}`}
@@ -21,12 +21,14 @@ export default function ImgContainer({ artwork }: Props) {
         width={250}
         placeholder="blur"
         blurDataURL={artwork.blurredDataUrl}
-        className="h-auto w-full object-contain group-hover:opacity-75"
+        className="h-full w-full object-contain group-hover:opacity-75"
       />
       <div className="pb-8 pt-4">
-        <h2 className="text-2xl">{`${artwork.title}, ${artwork.date_display}`}</h2>
+        <h2 className="sm:text-2xl truncate whitespace-normal">{`${artwork.title}, ${artwork.date_display}`}</h2>
         {artwork.artist_title && (
-          <h4 className="text-lg pt-2 text-gray-500">{artwork.artist_title}</h4>
+          <h4 className="sm:text-lg pt-2 text-gray-500 truncate whitespace-normal">
+            {artwork.artist_title}
+          </h4>
         )}
       </div>
     </div>
