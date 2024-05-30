@@ -2,7 +2,7 @@ import type { ArtworkShort } from "@/models/Images";
 import Image from "next/image";
 import { chicagoImageLoader } from "../loader";
 
-const RECOMMENDED_SIZE = "/full/843,/0/default.jpg";
+import { RECOMMENDED_SIZE } from "@/lib/fetchArtworks";
 
 type Props = {
   artwork: ArtworkShort;
@@ -10,7 +10,7 @@ type Props = {
 
 export default function ImgContainer({ artwork }: Props) {
   return (
-    <div key={artwork.id} className="relative p-4 py-6 rounded-xl">
+    <div className="p-4 py-6 rounded-xl group">
       <Image
         loader={chicagoImageLoader}
         src={`${artwork.image_id}${RECOMMENDED_SIZE}`}
@@ -19,7 +19,9 @@ export default function ImgContainer({ artwork }: Props) {
         alt={artwork.thumbnail?.alt_text || artwork.title}
         height={250}
         width={250}
-        className="w-full h-full object-cover"
+        placeholder="blur"
+        blurDataURL={artwork.blurredDataUrl}
+        className="h-auto w-full object-contain group-hover:opacity-75"
       />
       <div className="pb-8 pt-4">
         <h2 className="text-2xl">{`${artwork.title}, ${artwork.date_display}`}</h2>

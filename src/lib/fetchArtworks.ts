@@ -1,7 +1,8 @@
 import type { ArtworksResultsShort } from "@/models/Images";
 import { apiResponseShortSchema } from "@/models/Images";
 
-export let IIIF_URL: string = "";
+export let IIIF_URL: string = "https://www.artic.edu/iiif/2";
+export const RECOMMENDED_SIZE = "/full/843,/0/default.jpg";
 
 export default async function fetchArtworks(
   url: string
@@ -27,9 +28,6 @@ export default async function fetchArtworks(
     //dynamically aquire the images API url
     if (parsedData.config.iiif_url) {
       IIIF_URL = parsedData.config.iiif_url;
-    } else {
-      // just in case
-      IIIF_URL = "https://www.artic.edu/iiif/2";
     }
 
     return parsedData;
