@@ -2,8 +2,6 @@ import type { ArtworkShort } from "@/models/Images";
 import Image from "next/image";
 import { chicagoImageLoader } from "../loader";
 
-import { RECOMMENDED_SIZE } from "@/lib/fetchArtworks";
-
 type Props = {
   artwork: ArtworkShort;
 };
@@ -13,7 +11,7 @@ export default function ImgContainer({ artwork }: Props) {
     <div className="p-1 py-6 rounded-xl group">
       <Image
         loader={chicagoImageLoader}
-        src={`${artwork.image_id}${RECOMMENDED_SIZE}`}
+        src={artwork.image_path}
         // src={"42/249/large_1862_0005__0001_.jpg"}
         // (?.) ensures that you safely access alt_text even if thumbnail is null or undefined. avoids error
         alt={artwork.thumbnail?.alt_text || artwork.title}

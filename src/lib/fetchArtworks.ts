@@ -1,8 +1,6 @@
 import type { ArtworksResultsShort } from "@/models/Images";
 import { apiResponseShortSchema } from "@/models/Images";
-
-export let IIIF_URL: string = "https://www.artic.edu/iiif/2";
-export const RECOMMENDED_SIZE = "/full/843,/0/default.jpg";
+import { updateConfig } from "../../chicagoApi.config";
 
 export default async function fetchArtworks(
   url: string
@@ -20,15 +18,15 @@ export default async function fetchArtworks(
     // runs on server not browser
     // console.log(artworksResults);
 
+    //dynamically aquire the images API url
+    if (artworksResults.config.iiif_url) {
+      updateConfig(artworksResults.config.iiif_url);
+    }
+
     // Parse data with Zod schema
     const parsedData = apiResponseShortSchema.parse(artworksResults);
 
     if (parsedData.data.length === 0) return undefined;
-
-    //dynamically aquire the images API url
-    if (parsedData.config.iiif_url) {
-      IIIF_URL = parsedData.config.iiif_url;
-    }
 
     return parsedData;
   } catch (e) {

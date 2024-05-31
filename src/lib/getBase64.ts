@@ -1,6 +1,6 @@
 import { getPlaiceholder } from "plaiceholder";
 import type { ArtworkShort, ArtworksResultsShort } from "@/models/Images";
-import { RECOMMENDED_SIZE, IIIF_URL } from "@/lib/fetchArtworks";
+import { chicagoConfig } from "../../chicagoApi.config";
 
 async function getBase64(imageUrl: string) {
   try {
@@ -35,14 +35,20 @@ export default async function addBlurredDataUrls(
 ): Promise<ArtworkShort[]> {
   // Make all requests at once instead of awaiting each one - avoiding a waterfall
   const base64Promises = artworks.data.map((artwork) => {
-    return getBase64(`${IIIF_URL}/${artwork.image_id}${RECOMMENDED_SIZE}`);
+    if (artwork.image_path === "/images/no-image.png") {
+      // chose random image for blur to get round blurring local image
+      return getBase64(
+        "https://www.artic.edu/iiif/2/16cc6197-6bd1-669d-a94f-b46908b9affa/full/677,/0/default.jpg"
+      );
+    } else {
+      return getBase64(`${chicagoConfig.IIIF_URL}${artwork.image_path}`);
+    }
   });
 
-  // REsolve all requests in orderx
   const base64Results = await Promise.all(base64Promises);
 
   const photosWithBlur: ArtworkShort[] = artworks.data.map((artwork, index) => {
-    artwork.blurredDataUrl = base64Results[index];
+    artwork.blurredDataUrl = base64Results[index]; // Fulfilled promises keep the same order
 
     return artwork;
   });

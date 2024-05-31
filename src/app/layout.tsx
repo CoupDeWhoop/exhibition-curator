@@ -9,6 +9,8 @@ const cg = Cormorant_Garamond({
   display: "swap",
 });
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Museum & Gallery Exhibition",
   description:

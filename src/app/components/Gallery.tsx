@@ -3,13 +3,17 @@ import type { ArtworksResultsShort } from "@/models/Images";
 import ImgContainer from "./ImgContainer";
 import addBlurredDataUrls from "@/lib/getBase64";
 
-import React from "react";
+type Props = {
+  topic?: string | undefined;
+};
 
-export default async function Gallery() {
-  let limit = 83;
-  const url =
-    "https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=" +
-    limit.toString();
+export default async function Gallery({ topic }: Props) {
+  let limit = 40;
+  const url = !topic
+    ? "https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=" +
+      limit.toString()
+    : `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&limit=` +
+      limit.toString();
   // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
 
   const artworks: ArtworksResultsShort | undefined = await fetchArtworks(url);
@@ -33,9 +37,12 @@ export default async function Gallery() {
   return (
     <section className="my-3 flex min-w-1">
       {columnSets.map((columnSet, setIndex) => (
-        <div className="flex-1  border-gray-100 px-3 border-r-2 last:border-r-0 min-w-1">
+        <div
+          key={`column-${setIndex}`}
+          className="flex-1  border-gray-100 px-3 border-r-2 last:border-r-0 min-w-1"
+        >
           {/* the extra div is just for creating a gap in the image borders */}
-          <div key={`column-${setIndex}`} className="gap-2">
+          <div className="gap-2">
             {columnSet.map((artwork, index) => (
               <div
                 key={`item-${setIndex}-${index}`}

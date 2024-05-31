@@ -1,4 +1,9 @@
 import { z } from "zod";
+export let IIIF_URL: string = "https://www.artic.edu/iiif/2";
+export const RECOMMENDED_SIZE = 843;
+export const imagePath = "/full/843,/0/default.jpg";
+export const PLACEHOLDER_IMAGE_URL =
+  "https://via.placeholder.com/843x843?text=No+Image+Available";
 
 // Schema for pagination information
 const paginationSchema = z.object({
@@ -32,25 +37,49 @@ const thumbnailSchema = z.object({
 });
 
 // Schema for artwork with basic fields
-const artworkSchemaShort = z.object({
-  id: z.number(),
-  thumbnail: thumbnailSchema.nullable(),
-  title: z.string(),
-  artist_title: z.string().nullable(),
-  date_display: z.string().nullable(),
-  image_id: z.string().nullable(),
-  blurredDataUrl: z.string().optional(),
-});
+const artworkSchemaShort = z
+  .object({
+    _score: z.number().optional(),
+    id: z.number(),
+    thumbnail: thumbnailSchema.nullable(),
+    title: z.string(),
+    artist_title: z.string().nullable(),
+    date_display: z.string().nullable(),
+    image_id: z.string().nullable(),
+    blurredDataUrl: z.string().optional(),
+  })
+  .transform((artwork) => {
+    const { image_id, thumbnail } = artwork;
+    let imagePath;
+
+    if (thumbnail && image_id) {
+      imagePath =
+        thumbnail.width >= RECOMMENDED_SIZE &&
+        thumbnail.height >= RECOMMENDED_SIZE
+          ? `/${image_id}/full/${RECOMMENDED_SIZE},/0/default.jpg`
+          : `/${image_id}/full/${Math.min(
+              thumbnail.width,
+              thumbnail.height
+            )},/0/default.jpg`;
+    } else {
+      imagePath = "/images/no-image.png";
+    }
+    return {
+      ...artwork,
+      image_path: imagePath,
+    };
+  });
 
 export type ArtworkShort = z.infer<typeof artworkSchemaShort>;
 
 // Schema for the API response with selected fields
 export const apiResponseShortSchema = z.object({
   pagination: paginationSchema,
-  data: z.array(artworkSchemaShort).transform((items) =>
-    // Filter out items missing required fields
-    items.filter((item) => item.image_id !== null)
-  ),
+  data: z.array(artworkSchemaShort),
+  // .transform((items) =>
+  //   // Filter out items missing image_id
+  //   items.filter((item) => item.image_id !== null)
+  // ),
   info: infoSchema,
   config: configSchema,
 });
