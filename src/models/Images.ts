@@ -13,6 +13,7 @@ const paginationSchema = z.object({
   total_pages: z.number(),
   current_page: z.number(),
   next_url: z.string().url().optional(),
+  prev_url: z.string().url().optional(),
 });
 
 // Schema for API response info
