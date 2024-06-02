@@ -1,3 +1,4 @@
+import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { Cormorant_Garamond } from "@next/font/google";
 import "./globals.css";
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cg.className}>
       <body>
+        <NextTopLoader />
         <Navbar />
         <main className="max-w-7xl mx-auto">{children}</main>
       </body>
