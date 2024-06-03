@@ -15,10 +15,7 @@ export default async function fetchArtworks(
 
     const artworksResults: ArtworksResultsShort = await res.json();
 
-    // runs on server not browser
-    // console.log(artworksResults);
-
-    //dynamically aquire the images API url
+    //dynamically aquire the images API url for all
     if (artworksResults.config.iiif_url) {
       updateConfig(artworksResults.config.iiif_url);
     }

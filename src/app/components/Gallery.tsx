@@ -4,6 +4,7 @@ import ImgContainer from "./ImgContainer";
 import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
+import Link from "next/link";
 
 type Props = {
   topic?: string | undefined;
@@ -28,7 +29,6 @@ export default async function Gallery({ topic = "artworks", page }: Props) {
   }
   // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
 
-  console.log(url);
   const artworks: ArtworksResultsShort | undefined = await fetchArtworks(url);
 
   if (!artworks || artworks.pagination.total === 0)
@@ -67,7 +67,9 @@ export default async function Gallery({ topic = "artworks", page }: Props) {
                   // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
                   className="border-b-2 border-gray-100 last:border-b-0"
                 >
-                  <ImgContainer key={artwork.id} artwork={artwork} />
+                  <Link href={`/artworks/${artwork.id}`}>
+                    <ImgContainer key={artwork.id} artwork={artwork} />
+                  </Link>
                 </div>
               ))}
             </div>

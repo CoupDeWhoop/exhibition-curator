@@ -1,5 +1,5 @@
 import Gallery from "@/app/components/Gallery";
-import { useRouter } from "next/router";
+
 type Props = {
   params: {
     myParams?: string[]; // Make myParams an optional array of strings
