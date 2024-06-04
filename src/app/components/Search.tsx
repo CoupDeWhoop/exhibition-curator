@@ -20,6 +20,7 @@ export default function Search() {
     >
       <input
         type="text"
+        name="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search"

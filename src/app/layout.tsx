@@ -1,6 +1,6 @@
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
-import { Cormorant_Garamond } from "@next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 

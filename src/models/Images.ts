@@ -38,13 +38,6 @@ const paginationSchema = z.object({
   prev_url: z.string().url().optional(),
 });
 
-// Schema for API response info
-const infoSchema = z.object({
-  license_text: z.string(),
-  license_links: z.array(z.string().url()),
-  version: z.string(),
-});
-
 // Schema for API config information
 const configSchema = z.object({
   iiif_url: z.string().url(),
@@ -85,7 +78,6 @@ export const apiResponseShortSchema = z.object({
   //   // Filter out items missing image_id
   //   items.filter((item) => item.image_id !== null)
   // ),
-  info: infoSchema,
   config: configSchema,
 });
 
@@ -110,7 +102,6 @@ const completeArtworkSchema = z.object({
 export const apiResponseCompleteSchema = z.object({
   pagination: paginationSchema,
   data: z.array(completeArtworkSchema),
-  info: infoSchema,
   config: configSchema,
 });
 
@@ -240,7 +231,6 @@ export const singleArtworkAllDetailsSchema = z
 
 export const singleArtworkResponseCompleteSchema = z.object({
   data: singleArtworkAllDetailsSchema,
-  info: infoSchema,
   config: configSchema,
 });
 

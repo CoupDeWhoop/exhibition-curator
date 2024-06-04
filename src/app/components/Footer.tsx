@@ -36,11 +36,15 @@ export default function Footer({ topic, page, prevPage, nextPage }: Props) {
       >
         {!nextPage ? "back" : null} &lt;&lt;&lt;
       </Link>
-      {pageNums.map((num, i) =>
+      {pageNums.map((num, index) =>
         page && num === parseInt(page) ? (
-          <span key={i}>{num}</span>
+          <span key={index}>{num}</span>
         ) : (
-          <Link href={`${basePath}/${num}`} className="underline">
+          <Link
+            key={index}
+            href={`${basePath}/${num}`}
+            className="underline underline-offset-[6px]"
+          >
             {num}
           </Link>
         )

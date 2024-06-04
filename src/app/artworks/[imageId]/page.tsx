@@ -14,5 +14,5 @@ export default async function Page({ params: { imageId } }: Props) {
     return <div>Artwork not found</div>;
   }
 
-  return <SingleArtwork artwork={artwork.data} />;
+  return <SingleArtwork key={artwork.data.id} artwork={artwork.data} />;
 }
