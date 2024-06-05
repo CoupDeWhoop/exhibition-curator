@@ -1,10 +1,14 @@
-import type { ArtworksResultsShort } from "@/models/Images";
-import { apiResponseShortSchema } from "@/models/Images";
+import type { ChicagoArtworksResults } from "@/models/museumSchemas";
+import {
+  NormalizedArtworksResults,
+  normalisedResponseSchema,
+} from "@/models/normalizedSchema";
 import { updateConfig } from "../../chicagoApi.config";
+import { normalizeItem } from "./normalizeData";
 
 export default async function fetchArtworks(
   url: string
-): Promise<ArtworksResultsShort | undefined> {
+): Promise<NormalizedArtworksResults | undefined> {
   try {
     const res = await fetch(url, {
       // no key is needed for Chicago API
@@ -13,17 +17,23 @@ export default async function fetchArtworks(
 
     if (!res.ok) throw new Error("Fetch Images error!\n");
 
-    const artworksResults: ArtworksResultsShort = await res.json();
+    const artworksResults: ChicagoArtworksResults = await res.json();
 
     //dynamically aquire the images API url for all
     if (artworksResults.config.iiif_url) {
       updateConfig(artworksResults.config.iiif_url);
     }
 
-    // Parse data with Zod schema
-    const parsedData = apiResponseShortSchema.parse(artworksResults);
+    // Normalize the data using normalizeItem function
+    const normalizedData = {
+      ...artworksResults,
+      data: artworksResults.data.map((item) => normalizeItem(item, "chicago")),
+    };
 
-    if (parsedData.data.length === 0) return undefined;
+    // Validate the normalized data with Zod schema
+    const parsedData = normalisedResponseSchema.parse(normalizedData);
+
+    if (!parsedData) return undefined;
 
     return parsedData;
   } catch (e) {

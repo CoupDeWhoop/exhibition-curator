@@ -1,6 +1,6 @@
-import type { ArtworksResultsShort } from "@/models/Images";
+import type { ChicagoArtworksResults } from "@/models/museumSchemas";
 
-export default function getPrevNextPage(artworks: ArtworksResultsShort) {
+export default function getPrevNextPage(artworks: ChicagoArtworksResults) {
   let nextPage: string | null = null;
   let prevPage: string | null = null;
 
