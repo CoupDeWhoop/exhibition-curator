@@ -1,17 +1,28 @@
 import Image from "next/image";
-import { chicagoImageLoader } from "../loader";
+import { chicagoImageLoader, harvardImageLoader } from "../loader";
 import { PLACEHOLDER_IMAGE_URL } from "@/lib/constants";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
 
 type Props = {
   artwork: NormalizedArtwork;
+  museum: string;
 };
 
-export default function ImgContainer({ artwork }: Props) {
+function chooseLoader(museum: string) {
+  console.log("here");
+  switch (museum) {
+    case "chicago":
+      return chicagoImageLoader;
+    case "harvard":
+      return harvardImageLoader;
+  }
+}
+
+export default function ImgContainer({ artwork, museum }: Props) {
   return (
     <div className="p-1 py-6 rounded-xl group">
       <Image
-        loader={chicagoImageLoader}
+        loader={chooseLoader(museum)}
         src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
         // src={"42/249/large_1862_0005__0001_.jpg"}
         // (?.) ensures that you safely access alt_text even if thumbnail is null or undefined. avoids error

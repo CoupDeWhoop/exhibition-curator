@@ -4,10 +4,16 @@ import {
   normalisedResponseSchema,
 } from "@/models/normalizedSchema";
 import { updateConfig } from "../../chicagoApi.config";
-import { normalizeItem } from "./normalizeData";
+import { extractApiData, normalizeItem } from "./normalizeData";
+import { HarvardArtworkResults } from "@/models/harvardSchemas";
+import {
+  isChicagoArtworksResults,
+  isHarvardArtworkResults,
+} from "@/models/api-utils/typeGuards";
 
 export default async function fetchArtworks(
-  url: string
+  url: string,
+  museum: string
 ): Promise<NormalizedArtworksResults | undefined> {
   try {
     const res = await fetch(url, {
@@ -17,17 +23,19 @@ export default async function fetchArtworks(
 
     if (!res.ok) throw new Error("Fetch Images error!\n");
 
-    const artworksResults: ChicagoArtworksResults = await res.json();
+    const artworksResults: ChicagoArtworksResults | HarvardArtworkResults =
+      await res.json();
 
     //dynamically aquire the images API url for all
-    if (artworksResults.config.iiif_url) {
+    if (museum === "chicago" && isChicagoArtworksResults(artworksResults)) {
       updateConfig(artworksResults.config.iiif_url);
     }
 
-    // Normalize the data using normalizeItem function
+    const extractedData = extractApiData(artworksResults, museum);
     const normalizedData = {
-      ...artworksResults,
-      data: artworksResults.data.map((item) => normalizeItem(item, "chicago")),
+      data: extractedData.map((item) => {
+        return normalizeItem(item, museum);
+      }),
     };
 
     // Validate the normalized data with Zod schema

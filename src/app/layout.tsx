@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import MuseumSelector from "./components/MuseumSelector";
 
 const cg = Cormorant_Garamond({
   weight: ["300", "600"],

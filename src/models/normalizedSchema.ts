@@ -5,13 +5,13 @@ export const normalizedItemSchema = z.object({
   title: z.string(),
   dateDisplay: z.string().nullable(),
   artistTitle: z.string().nullable(),
-  artistDisplay: z.string().optional(),
+  artistDisplay: z.string().nullable().optional(),
   placeOfOrigin: z.string().optional(),
   description: z.string().nullable().optional(),
   imageUrl: z.string().optional(),
   altText: z.string().nullable(),
   blurredDataUrl: z.string().optional(),
-  categoryTitles: z.array(z.string()).optional(),
+  categoryTitles: z.array(z.string()).nullable().optional(),
 });
 
 export type NormalizedArtwork = z.infer<typeof normalizedItemSchema>;
@@ -33,7 +33,7 @@ const configSchema = z.object({
 export const normalisedResponseSchema = z.object({
   pagination: paginationSchema.optional(),
   data: z.union([z.array(normalizedItemSchema), normalizedItemSchema]),
-  config: configSchema,
+  config: configSchema.optional(),
 });
 
 export type NormalizedArtworksResults = z.infer<

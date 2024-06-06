@@ -46,6 +46,8 @@ export default async function addBlurredDataUrls(
           "https://www.artic.edu/iiif/2/16cc6197-6bd1-669d-a94f-b46908b9affa/full/677,/0/default.jpg"
         );
       } else {
+        if (artwork.imageUrl?.startsWith("https://nrs.harvard.edu/"))
+          return getBase64(artwork.imageUrl);
         return getBase64(`${chicagoConfig.IIIF_URL}${artwork.imageUrl}`);
       }
     });
