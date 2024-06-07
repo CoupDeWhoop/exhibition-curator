@@ -16,26 +16,25 @@ export const normalizedItemSchema = z.object({
 
 export type NormalizedArtwork = z.infer<typeof normalizedItemSchema>;
 
-const paginationSchema = z.object({
-  total: z.number(),
+export const normalizedPaginationSchema = z.object({
+  totalRecords: z.number(),
   limit: z.number(),
-  offset: z.number(),
-  total_pages: z.number(),
-  current_page: z.number(),
-  next_url: z.string().url().optional(),
-  prev_url: z.string().url().optional(),
+  totalPages: z.number(),
+  page: z.number(),
+  nextUrl: z.string().url().nullable().optional(),
+  prevUrl: z.string().url().nullable().optional(),
 });
 
 const configSchema = z.object({
   iiif_url: z.string().url(),
   website_url: z.string().url(),
 });
-export const normalisedResponseSchema = z.object({
-  pagination: paginationSchema.optional(),
+export const normalizedResponseSchema = z.object({
+  pagination: normalizedPaginationSchema.optional(),
   data: z.union([z.array(normalizedItemSchema), normalizedItemSchema]),
   config: configSchema.optional(),
 });
 
 export type NormalizedArtworksResults = z.infer<
-  typeof normalisedResponseSchema
+  typeof normalizedResponseSchema
 >;

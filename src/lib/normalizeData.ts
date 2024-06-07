@@ -2,31 +2,38 @@ import {
   HarvardArtworkResults,
   harvardArtworkSchema,
   HarvardArtwork,
+  harvardPaginationSchema,
+  HarvardPagination,
 } from "@/models/harvardSchemas";
 import {
   ChicagoArtwork,
   ChicagoArtworksResults,
+  ChicagoPagination,
   chicagoArtworkSchema,
-} from "@/models/museumSchemas";
-import { normalizedItemSchema } from "../models/normalizedSchema";
+  chicagoPaginationSchema,
+} from "@/models/chicagoSchemas";
+import {
+  normalizedItemSchema,
+  normalizedPaginationSchema,
+} from "../models/normalizedSchema";
 import generateImageUrl from "./getChicagoImageUrl";
 import {
   isChicagoArtworksResults,
   isHarvardArtworkResults,
 } from "@/models/api-utils/typeGuards";
 
-type ApiResponse = {
-  response: ChicagoArtworksResults | HarvardArtworkResults;
-};
-export const extractApiData = (response: ApiResponse, source: string) => {
+export type ApiResponse = ChicagoArtworksResults | HarvardArtworkResults;
+
+export const extractApiData = (response: ApiResponse) => {
   if (isChicagoArtworksResults(response)) {
-    return response.data;
+    return { data: response.data, pagination: response.pagination };
   } else if (isHarvardArtworkResults(response)) {
-    return response.records;
+    return { data: response.records, pagination: response.info };
   } else {
     throw new Error("Unknown source");
   }
 };
+
 type HarvardImage = {
   alttext?: string | null;
 };
@@ -57,9 +64,9 @@ function generateHarvardNameandDate(
 
 export const normalizeItem = (
   apiItem: ChicagoArtwork | HarvardArtwork,
-  source: string
+  museum: string
 ) => {
-  switch (source) {
+  switch (museum) {
     case "chicago": {
       const parsedItem = chicagoArtworkSchema.parse(apiItem);
       return normalizedItemSchema.parse({
@@ -70,7 +77,7 @@ export const normalizeItem = (
         artistDisplay: parsedItem.artist_display,
         altText: parsedItem.thumbnail?.alt_text || parsedItem.title,
         description: parsedItem.description,
-        imageUrl: generateImageUrl(apiItem),
+        imageUrl: generateImageUrl(parsedItem),
         blurredDataUrl: parsedItem.blurredDataUrl,
         categoryTitles: parsedItem.category_titles,
         // detailsUrl: `/museum1/item/${parsedItem.id}`,
@@ -99,5 +106,36 @@ export const normalizeItem = (
     }
     default:
       throw new Error("Unknown source");
+  }
+};
+
+type Pagination = ChicagoPagination | HarvardPagination;
+
+export const normalizePagination = (apiItem: Pagination, museum: string) => {
+  switch (museum) {
+    case "chicago": {
+      const parsedItem = chicagoPaginationSchema.parse(apiItem);
+      const newData = {
+        totalRecords: parsedItem.total,
+        limit: parsedItem.limit,
+        totalPages: parsedItem.total_pages,
+        page: parsedItem.current_page,
+        nextUrl: parsedItem.next_url || null,
+        prevUrl: parsedItem.prev_url || null,
+      };
+      return normalizedPaginationSchema.parse(newData);
+    }
+    case "harvard": {
+      const parsedItem = harvardPaginationSchema.parse(apiItem);
+      const newData = {
+        totalRecords: parsedItem.totalrecords,
+        limit: parsedItem.totalrecordsperquery,
+        totalPages: parsedItem.pages,
+        page: parsedItem.page,
+        nextUrl: parsedItem.next || null,
+        prevUrl: parsedItem.prev || null,
+      };
+      return normalizedPaginationSchema.parse(newData);
+    }
   }
 };

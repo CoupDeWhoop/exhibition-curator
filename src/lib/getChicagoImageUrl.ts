@@ -1,4 +1,4 @@
-import { ChicagoArtwork } from "@/models/museumSchemas";
+import { ChicagoArtwork } from "@/models/chicagoSchemas";
 import { RECOMMENDED_SIZE } from "./constants";
 
 export default function generateImageUrl(artwork: ChicagoArtwork): string {

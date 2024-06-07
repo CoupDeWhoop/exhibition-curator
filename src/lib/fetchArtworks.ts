@@ -1,10 +1,14 @@
-import type { ChicagoArtworksResults } from "@/models/museumSchemas";
+import type { ChicagoArtworksResults } from "@/models/chicagoSchemas";
 import {
   NormalizedArtworksResults,
-  normalisedResponseSchema,
+  normalizedResponseSchema,
 } from "@/models/normalizedSchema";
 import { updateConfig } from "../../chicagoApi.config";
-import { extractApiData, normalizeItem } from "./normalizeData";
+import {
+  extractApiData,
+  normalizeItem,
+  normalizePagination,
+} from "./normalizeData";
 import { HarvardArtworkResults } from "@/models/harvardSchemas";
 import {
   isChicagoArtworksResults,
@@ -17,8 +21,8 @@ export default async function fetchArtworks(
 ): Promise<NormalizedArtworksResults | undefined> {
   try {
     const res = await fetch(url, {
-      // no key is needed for Chicago API
-      headers: { "AIC-User-Agent": "D-Greenland (greenlanddev01@gmail.com)" },
+      // requested by chicago api on docs
+      headers: { "AIC-User-Agent": `${process.env.DEV_EMAIL}` },
     });
 
     if (!res.ok) throw new Error("Fetch Images error!\n");
@@ -31,15 +35,17 @@ export default async function fetchArtworks(
       updateConfig(artworksResults.config.iiif_url);
     }
 
-    const extractedData = extractApiData(artworksResults, museum);
+    const extractedData = extractApiData(artworksResults);
+
     const normalizedData = {
-      data: extractedData.map((item) => {
+      data: extractedData.data.map((item) => {
         return normalizeItem(item, museum);
       }),
+      pagination: normalizePagination(extractedData.pagination, museum),
     };
 
     // Validate the normalized data with Zod schema
-    const parsedData = normalisedResponseSchema.parse(normalizedData);
+    const parsedData = normalizedResponseSchema.parse(normalizedData);
 
     if (!parsedData) return undefined;
 

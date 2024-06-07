@@ -22,11 +22,15 @@ function scienceImageLoader({ src, width, quality }: ImageLoaderProps): string {
 }
 
 function harvardImageLoader({ src, width, quality }: ImageLoaderProps): string {
-  const path = src.split("https://nrs.harvard.edu/urn-3:HUAM:")[1];
-  console.log(path);
-  return `https://nrs.harvard.edu/urn-3:HUAM:${path}?w=${width}&q=${
-    quality || 75
-  }`;
+  if (src.startsWith("/images")) {
+    // local asset
+    return `${src}?w=${width}&q=${quality || 75}`;
+  } else {
+    const path = src.split("https://nrs.harvard.edu/urn-3:HUAM:")[1];
+    return `https://nrs.harvard.edu/urn-3:HUAM:${path}?w=${width}&q=${
+      quality || 75
+    }`;
+  }
 }
 
 export { chicagoImageLoader, scienceImageLoader, harvardImageLoader };

@@ -1,8 +1,8 @@
-import type { ChicagoArtworksResults } from "@/models/museumSchemas";
+import type { ChicagoArtworksResults } from "@/models/chicagoSchemas";
 import { normalizeItem } from "./normalizeData";
 import {
   NormalizedArtworksResults,
-  normalisedResponseSchema,
+  normalizedResponseSchema,
 } from "@/models/normalizedSchema";
 
 export default async function fetchSingleArtwork(
@@ -22,7 +22,7 @@ export default async function fetchSingleArtwork(
         ...artworkResult,
         data: normalizeItem(artworkResult.data, "chicago"),
       };
-      const parsedData = normalisedResponseSchema.parse(normalizedData);
+      const parsedData = normalizedResponseSchema.parse(normalizedData);
 
       if (!parsedData.data) {
         return undefined;

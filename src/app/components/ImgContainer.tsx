@@ -9,7 +9,6 @@ type Props = {
 };
 
 function chooseLoader(museum: string) {
-  console.log("here");
   switch (museum) {
     case "chicago":
       return chicagoImageLoader;

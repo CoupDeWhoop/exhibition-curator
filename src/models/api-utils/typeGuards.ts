@@ -1,4 +1,4 @@
-import { ChicagoArtworksResults } from "@/models/museumSchemas";
+import { ChicagoArtworksResults } from "@/models/chicagoSchemas";
 import { HarvardArtworkResults } from "@/models/harvardSchemas";
 
 export function isChicagoArtworksResults(
@@ -12,3 +12,5 @@ export function isHarvardArtworkResults(
 ): data is HarvardArtworkResults {
   return (data as HarvardArtworkResults).records !== undefined;
 }
+
+//https://www.typescriptlang.org/docs/handbook/advanced-types.html

@@ -1,4 +1,4 @@
-import type { ChicagoArtworksResults } from "@/models/museumSchemas";
+import type { ChicagoArtworksResults } from "@/models/chicagoSchemas";
 
 export default function getPrevNextPage(artworks: ChicagoArtworksResults) {
   let nextPage: string | null = null;

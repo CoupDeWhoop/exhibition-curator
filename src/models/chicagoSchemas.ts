@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const paginationSchema = z.object({
+export const chicagoPaginationSchema = z.object({
   total: z.number(),
   limit: z.number(),
   offset: z.number(),
@@ -9,6 +9,8 @@ const paginationSchema = z.object({
   next_url: z.string().url().optional(),
   prev_url: z.string().url().optional(),
 });
+
+export type ChicagoPagination = z.infer<typeof chicagoPaginationSchema>;
 
 const configSchema = z.object({
   iiif_url: z.string().url(),
@@ -41,7 +43,7 @@ export const chicagoArtworkSchema = z.object({
 export type ChicagoArtwork = z.infer<typeof chicagoArtworkSchema>;
 
 export const apiResponseSchema = z.object({
-  pagination: paginationSchema,
+  pagination: chicagoPaginationSchema,
   data: z.array(chicagoArtworkSchema),
   config: configSchema,
 });
