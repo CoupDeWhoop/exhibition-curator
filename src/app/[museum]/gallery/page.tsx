@@ -8,7 +8,6 @@ type Props = {
 export default function Page({ params: { museum } }: Props) {
   return (
     <>
-      <MuseumSelector />
       <Gallery museum={museum} />
     </>
   );

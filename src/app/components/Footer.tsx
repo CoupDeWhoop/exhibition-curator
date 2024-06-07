@@ -5,10 +5,17 @@ type Props = {
   page: string | undefined;
   prevPage: string | null;
   nextPage: string | null;
+  museum: string | null;
 };
 
-export default function Footer({ topic, page, prevPage, nextPage }: Props) {
-  if (!prevPage && !nextPage) return;
+export default function Footer({
+  topic,
+  page,
+  prevPage,
+  nextPage,
+  museum,
+}: Props) {
+  if (!prevPage && !nextPage) return null;
 
   const pageNums: number[] = [];
   if (prevPage && nextPage) {
@@ -17,21 +24,22 @@ export default function Footer({ topic, page, prevPage, nextPage }: Props) {
     }
   }
 
-  const basePath = topic ? `/results/${topic}` : `/results/artworks`;
+  const basePath = museum ? `/${museum}/results` : `/chicago/results`;
+  const fullPath = topic ? `${basePath}/${topic}` : `${basePath}/artworks`;
 
   const nextPageArea = nextPage ? (
     <Link
-      href={`${basePath}/${nextPage}`}
+      href={`${fullPath}/${nextPage}`}
       className={!prevPage ? "mx-auto" : ""}
     >
-      {!prevPage ? "more" : null} &gt;&gt;&gt;{" "}
+      {!prevPage ? "more" : null} &gt;&gt;&gt;
     </Link>
   ) : null;
 
   const prevPageArea = prevPage ? (
     <>
       <Link
-        href={`${basePath}/${prevPage}`}
+        href={`${fullPath}/${prevPage}`}
         className={!nextPage ? "mx-auto" : ""}
       >
         {!nextPage ? "back" : null} &lt;&lt;&lt;
@@ -42,7 +50,7 @@ export default function Footer({ topic, page, prevPage, nextPage }: Props) {
         ) : (
           <Link
             key={index}
-            href={`${basePath}/${num}`}
+            href={`${fullPath}/${num}`}
             className="underline underline-offset-[6px]"
           >
             {num}

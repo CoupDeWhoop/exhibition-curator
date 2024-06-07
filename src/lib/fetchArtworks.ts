@@ -13,7 +13,7 @@ import { HarvardArtworkResults } from "@/models/harvardSchemas";
 import {
   isChicagoArtworksResults,
   isHarvardArtworkResults,
-} from "@/models/api-utils/typeGuards";
+} from "@/models/typeGuards";
 
 export default async function fetchArtworks(
   url: string,

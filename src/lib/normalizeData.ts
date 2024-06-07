@@ -20,7 +20,7 @@ import generateImageUrl from "./getChicagoImageUrl";
 import {
   isChicagoArtworksResults,
   isHarvardArtworkResults,
-} from "@/models/api-utils/typeGuards";
+} from "@/models/typeGuards";
 
 export type ApiResponse = ChicagoArtworksResults | HarvardArtworkResults;
 

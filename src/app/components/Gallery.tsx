@@ -50,9 +50,9 @@ export default async function Gallery({
 
   const photosWithBlur = await addBlurredDataUrls(artworks);
 
-  // const { prevPage, nextPage } = getPrevNextPage(artworks);
+  const { prevPage, nextPage } = getPrevNextPage(artworks);
 
-  // const footerProps = { topic, page, nextPage, prevPage };
+  const footerProps = { topic, page, nextPage, prevPage, museum };
 
   const columns = 4;
   const columnLimit = Math.ceil(photosWithBlur.length / columns);
@@ -81,7 +81,7 @@ export default async function Gallery({
                   // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
                   className="border-b-[1px] border-gray-200 last:border-b-0"
                 >
-                  <Link href={`/artworks/${artwork.id}`}>
+                  <Link href={`/artwork/${museum}/${artwork.id}`}>
                     <ImgContainer
                       key={artwork.id}
                       artwork={artwork}
@@ -94,7 +94,7 @@ export default async function Gallery({
           </div>
         ))}
       </section>
-      {/* {museum === "chicago" && <Footer {...footerProps} />} */}
+      <Footer {...footerProps} />
     </>
   );
 }

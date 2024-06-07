@@ -1,25 +1,27 @@
-import type { ChicagoArtworksResults } from "@/models/chicagoSchemas";
+import type { NormalizedArtworksResults } from "@/models/normalizedSchema";
 
-export default function getPrevNextPage(artworks: ChicagoArtworksResults) {
+export default function getPrevNextPage(artworks: NormalizedArtworksResults) {
   let nextPage: string | null = null;
   let prevPage: string | null = null;
 
-  const { current_page, total_pages } = artworks.pagination;
+  if (!artworks.pagination) return { prevPage, nextPage };
 
-  if (current_page === 1) {
+  const { page, totalPages } = artworks.pagination;
+
+  if (page === 1) {
     nextPage = "2";
-  } else if (current_page >= total_pages) {
+  } else if (page >= totalPages) {
     nextPage = null;
-  } else if (current_page + 4 < total_pages) {
-    nextPage = (current_page + 4).toString();
+  } else if (page + 4 < totalPages) {
+    nextPage = (page + 4).toString();
   } else {
-    nextPage = (current_page + 1).toString();
+    nextPage = (page + 1).toString();
   }
 
-  if (current_page === 1) {
+  if (page === 1) {
     prevPage = null;
   } else {
-    prevPage = (current_page - 1).toString();
+    prevPage = (page - 1).toString();
   }
 
   return { prevPage, nextPage };

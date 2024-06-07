@@ -1,15 +1,20 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Search() {
   const [search, setSearch] = useState("");
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/results/${search}`);
+
+    const museum = pathname.match(/\w+/);
+    const basePath = pathname === "/" ? "chicago" : museum ? museum[0] : "";
+
+    router.push(`/${basePath}/results/${search}`);
     setSearch("");
   };
 
