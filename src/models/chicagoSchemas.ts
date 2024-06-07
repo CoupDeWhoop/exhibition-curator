@@ -44,7 +44,7 @@ export type ChicagoArtwork = z.infer<typeof chicagoArtworkSchema>;
 
 export const apiResponseSchema = z.object({
   pagination: chicagoPaginationSchema,
-  data: z.array(chicagoArtworkSchema),
+  data: z.union([z.array(chicagoArtworkSchema), chicagoArtworkSchema]),
   config: configSchema,
 });
 

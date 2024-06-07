@@ -29,12 +29,7 @@ export const extractApiData = (response: ApiResponse) => {
     return { data: response.data, pagination: response.pagination };
   } else if (isHarvardArtworkResults(response)) {
     return {
-      data: response.records.filter(
-        (record) =>
-          record.copyright === null &&
-          record.primaryimageurl !== null &&
-          "primaryimageurl" in record
-      ),
+      data: response.records,
       pagination: response.info,
     };
   } else {
