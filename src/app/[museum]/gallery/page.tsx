@@ -6,6 +6,7 @@ type Props = {
   };
 };
 export default function Page({ params: { museum } }: Props) {
+  console.log(museum, "<<<<<<<<");
   return (
     <>
       <Gallery museum={museum} />

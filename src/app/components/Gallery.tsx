@@ -17,29 +17,44 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
-  let limit = 40;
+  let limit = (40).toString();
   let url;
   let artworks: NormalizedArtworksResults | undefined;
 
-  if (museum === "home" || museum === "chicago") {
-    if (topic === "artworks" && page) {
-      // browsing beyond home
-      url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit.toString()}`;
-    } else if (topic === "artworks") {
-      // home
-      url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=${limit.toString()}`;
-    } else if (!page) {
-      // 1st page of search results
-      url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&limit=${limit.toString()}`;
-    } else {
-      // search results beyond first page
-      url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit.toString()}`;
+  switch (museum) {
+    case "chicago": {
+      if (topic === "artworks" && page) {
+        // browsing beyond home
+        url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
+      } else if (topic === "artworks") {
+        // home
+        url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=${limit}`;
+      } else if (!page) {
+        // 1st page of search results
+        url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&limit=${limit}`;
+      } else {
+        // search results beyond first page
+        url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
+      }
+      // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
+      break;
     }
-    // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
-  } else if (museum === "harvard") {
-    url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}`;
-  } else {
-    url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit.toString()}`;
+    case "harvard": {
+      if (topic === "artworks" && page) {
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&page=${page}`;
+      } else if (topic === "artworks") {
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}`;
+      } else if (!page) {
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}`;
+      } else {
+        console.log(`searching topic ${topic} in harvard`);
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}&page=${page}`;
+      }
+      break;
+    }
+    default: {
+      url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
+    }
   }
 
   artworks = await fetchArtworks(url, museum);

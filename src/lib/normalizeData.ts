@@ -28,7 +28,15 @@ export const extractApiData = (response: ApiResponse) => {
   if (isChicagoArtworksResults(response)) {
     return { data: response.data, pagination: response.pagination };
   } else if (isHarvardArtworkResults(response)) {
-    return { data: response.records, pagination: response.info };
+    return {
+      data: response.records.filter(
+        (record) =>
+          record.copyright === null &&
+          record.primaryimageurl !== null &&
+          "primaryimageurl" in record
+      ),
+      pagination: response.info,
+    };
   } else {
     throw new Error("Unknown source");
   }

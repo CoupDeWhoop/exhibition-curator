@@ -21,6 +21,7 @@ export const harvardArtworkSchema = z.object({
   title: z.string(),
   people: z.array(peopleSchema).nullable().optional(),
   description: z.string().nullable().optional(),
+  copyright: z.string().nullable(),
   images: z
     .array(
       z.object({

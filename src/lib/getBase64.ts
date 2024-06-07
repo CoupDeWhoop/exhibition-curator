@@ -40,14 +40,14 @@ export default async function addBlurredDataUrls(
   // Make all requests at once instead of awaiting each one - avoiding a waterfall
   if (Array.isArray(artworks.data)) {
     base64Promises = artworks.data.map((artwork) => {
-      if (artwork.imageUrl === "/images/no-image.png") {
+      if (!artwork.imageUrl || artwork.imageUrl === "/images/no-image.png") {
         // chose random image for blur to get round blurring local image
         return getBase64(
           "https://www.artic.edu/iiif/2/16cc6197-6bd1-669d-a94f-b46908b9affa/full/677,/0/default.jpg"
         );
+      } else if (artwork.imageUrl.startsWith("https://nrs.harvard.edu/")) {
+        return getBase64(artwork.imageUrl);
       } else {
-        if (artwork.imageUrl?.startsWith("https://nrs.harvard.edu/"))
-          return getBase64(artwork.imageUrl);
         return getBase64(`${chicagoConfig.IIIF_URL}${artwork.imageUrl}`);
       }
     });

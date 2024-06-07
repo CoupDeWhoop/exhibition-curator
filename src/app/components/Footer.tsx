@@ -5,7 +5,7 @@ type Props = {
   page: string | undefined;
   prevPage: string | null;
   nextPage: string | null;
-  museum: string | null;
+  museum: string;
 };
 
 export default function Footer({
@@ -24,12 +24,9 @@ export default function Footer({
     }
   }
 
-  const basePath = museum ? `/${museum}/results` : `/chicago/results`;
-  const fullPath = topic ? `${basePath}/${topic}` : `${basePath}/artworks`;
-
   const nextPageArea = nextPage ? (
     <Link
-      href={`${fullPath}/${nextPage}`}
+      href={`/${museum}/results/${topic}/${nextPage}`}
       className={!prevPage ? "mx-auto" : ""}
     >
       {!prevPage ? "more" : null} &gt;&gt;&gt;
@@ -39,7 +36,7 @@ export default function Footer({
   const prevPageArea = prevPage ? (
     <>
       <Link
-        href={`${fullPath}/${prevPage}`}
+        href={`/${museum}/results/${topic}/${prevPage}`}
         className={!nextPage ? "mx-auto" : ""}
       >
         {!nextPage ? "back" : null} &lt;&lt;&lt;
@@ -50,7 +47,7 @@ export default function Footer({
         ) : (
           <Link
             key={index}
-            href={`${fullPath}/${num}`}
+            href={`/${museum}/results/${topic}/${num}`}
             className="underline underline-offset-[6px]"
           >
             {num}
