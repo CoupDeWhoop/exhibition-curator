@@ -60,7 +60,7 @@ export default async function Gallery({
   artworks = await fetchArtworks(url, museum);
 
   // if (!artworks || artworks.pagination.total === 0) need this back after harvard
-  if (!artworks)
+  if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;
 
   const photosWithBlur = await addBlurredDataUrls(artworks);

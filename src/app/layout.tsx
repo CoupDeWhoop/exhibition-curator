@@ -29,6 +29,7 @@ export default function RootLayout({
       <body>
         <NextTopLoader showSpinner={false} />
         <Navbar />
+
         <main className="max-w-7xl mx-auto">{children}</main>
       </body>
     </html>

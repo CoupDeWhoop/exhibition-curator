@@ -15,6 +15,7 @@ export default function Footer({
   nextPage,
   museum,
 }: Props) {
+  console.log(prevPage, nextPage);
   if (!prevPage && !nextPage) return null;
 
   const pageNums: number[] = [];

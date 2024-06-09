@@ -7,11 +7,12 @@ export default function getPrevNextPage(artworks: NormalizedArtworksResults) {
   if (!artworks.pagination) return { prevPage, nextPage };
 
   const { page, totalPages } = artworks.pagination;
+  console.log(page, totalPages);
 
-  if (page === 1) {
-    nextPage = "2";
-  } else if (page >= totalPages) {
+  if (page >= totalPages) {
     nextPage = null;
+  } else if (page === 1) {
+    nextPage = "2";
   } else if (page + 4 < totalPages) {
     nextPage = (page + 4).toString();
   } else {
