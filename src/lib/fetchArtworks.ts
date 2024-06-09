@@ -6,6 +6,7 @@ import {
 import { updateConfig } from "../../chicagoApi.config";
 import {
   extractApiData,
+  normalizeData,
   normalizeItem,
   normalizePagination,
 } from "./normalizeData";
@@ -37,15 +38,16 @@ export default async function fetchArtworks(
 
     const extractedData = extractApiData(artworksResults);
 
-    const normalizedData = {
-      data: extractedData.data.map((item) => {
-        return normalizeItem(item, museum);
-      }),
-      pagination: normalizePagination(extractedData.pagination, museum),
+    const normalizedData = normalizeData(extractedData.data, museum);
+
+    const normalizedResponse = {
+      data: normalizedData,
+      pagination: extractedData.pagination
+        ? normalizePagination(extractedData.pagination, museum)
+        : null,
     };
 
-    // Validate the normalized data with Zod schema
-    const parsedData = normalizedResponseSchema.parse(normalizedData);
+    const parsedData = normalizedResponseSchema.parse(normalizedResponse);
 
     if (!parsedData) return undefined;
 

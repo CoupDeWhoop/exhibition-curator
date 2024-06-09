@@ -9,17 +9,17 @@ type Props = {
 };
 
 export default async function Page({ params: { imageId, museum } }: Props) {
-  const artwork = await fetchSingleArtwork(imageId, museum);
+  const artworkResponse = await fetchSingleArtwork(imageId, museum);
 
-  if (!artwork) {
+  if (!artworkResponse) {
     return <div>Artwork not found</div>;
   }
-
+  const artwork = artworkResponse;
   return (
     <SingleArtwork
       key={`${museum}-${imageId}`}
       museum={museum}
-      artwork={artwork.data}
+      artwork={artwork}
     />
   );
 }

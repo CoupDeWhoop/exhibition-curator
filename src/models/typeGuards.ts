@@ -1,16 +1,22 @@
-import { ChicagoArtworksResults } from "@/models/chicagoSchemas";
-import { HarvardArtworkResults } from "@/models/harvardSchemas";
+import {
+  chicagoApiResponseSchema,
+  ChicagoArtworksResults,
+} from "@/models/chicagoSchemas";
+import {
+  harvardApiResponseSchema,
+  HarvardArtworkResults,
+} from "@/models/harvardSchemas";
 
 export function isChicagoArtworksResults(
   data: any
 ): data is ChicagoArtworksResults {
-  return (data as ChicagoArtworksResults).data !== undefined;
+  return chicagoApiResponseSchema.safeParse(data).success;
 }
 
 export function isHarvardArtworkResults(
   data: any
 ): data is HarvardArtworkResults {
-  return (data as HarvardArtworkResults).records !== undefined;
+  return harvardApiResponseSchema.safeParse(data).success;
 }
 
-//https://www.typescriptlang.org/docs/handbook/advanced-types.html
+// started off like this https://www.typescriptlang.org/docs/handbook/advanced-types.html

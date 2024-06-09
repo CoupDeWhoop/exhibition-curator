@@ -12,8 +12,8 @@ type Description = {
 };
 
 type Props = {
-  artwork: NormalizedArtwork;
   museum: string;
+  artwork: NormalizedArtwork;
 };
 
 function chooseLoader(museum: string) {

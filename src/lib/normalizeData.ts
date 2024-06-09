@@ -28,14 +28,34 @@ export const extractApiData = (response: ApiResponse) => {
   if (isChicagoArtworksResults(response)) {
     return { data: response.data, pagination: response.pagination };
   } else if (isHarvardArtworkResults(response)) {
-    return {
-      data: response.records,
-      pagination: response.info,
-    };
+    if ("records" in response) {
+      return {
+        data: response.records,
+        pagination: response.info,
+      };
+    } else {
+      return {
+        data: response,
+        pagination: null,
+      };
+    }
   } else {
     throw new Error("Unknown source");
   }
 };
+
+type ArtworkData = ChicagoArtwork | HarvardArtwork;
+
+export function normalizeData(
+  data: ArtworkData | ArtworkData[],
+  museum: string
+) {
+  if (Array.isArray(data)) {
+    return data.map((item) => normalizeItem(item, museum));
+  } else {
+    return normalizeItem(data, museum);
+  }
+}
 
 type HarvardImage = {
   alttext?: string | null;
@@ -129,16 +149,19 @@ export const normalizePagination = (apiItem: Pagination, museum: string) => {
       return normalizedPaginationSchema.parse(newData);
     }
     case "harvard": {
-      const parsedItem = harvardPaginationSchema.parse(apiItem);
-      const newData = {
-        totalRecords: parsedItem.totalrecords,
-        limit: parsedItem.totalrecordsperquery,
-        totalPages: parsedItem.pages,
-        page: parsedItem.page,
-        nextUrl: parsedItem.next || null,
-        prevUrl: parsedItem.prev || null,
-      };
-      return normalizedPaginationSchema.parse(newData);
+      if (apiItem) {
+        const parsedItem = harvardPaginationSchema.parse(apiItem);
+        const newData = {
+          totalRecords: parsedItem.totalrecords,
+          limit: parsedItem.totalrecordsperquery,
+          totalPages: parsedItem.pages,
+          page: parsedItem.page,
+          nextUrl: parsedItem.next || null,
+          prevUrl: parsedItem.prev || null,
+        };
+        return normalizedPaginationSchema.parse(newData);
+      }
+      return null;
     }
   }
 };

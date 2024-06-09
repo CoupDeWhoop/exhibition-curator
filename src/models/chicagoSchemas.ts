@@ -42,10 +42,10 @@ export const chicagoArtworkSchema = z.object({
 
 export type ChicagoArtwork = z.infer<typeof chicagoArtworkSchema>;
 
-export const apiResponseSchema = z.object({
+export const chicagoApiResponseSchema = z.object({
   pagination: chicagoPaginationSchema,
   data: z.union([z.array(chicagoArtworkSchema), chicagoArtworkSchema]),
   config: configSchema,
 });
 
-export type ChicagoArtworksResults = z.infer<typeof apiResponseSchema>;
+export type ChicagoArtworksResults = z.infer<typeof chicagoApiResponseSchema>;

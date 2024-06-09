@@ -38,9 +38,12 @@ export const harvardArtworkSchema = z.object({
 
 export type HarvardArtwork = z.infer<typeof harvardArtworkSchema>;
 
-export const harvardApiResponseSchema = z.object({
-  info: harvardPaginationSchema,
-  records: z.union([z.array(harvardArtworkSchema), harvardArtworkSchema]),
-});
+export const harvardApiResponseSchema = z.union([
+  z.object({
+    info: harvardPaginationSchema,
+    records: z.array(harvardArtworkSchema),
+  }),
+  harvardArtworkSchema,
+]);
 
 export type HarvardArtworkResults = z.infer<typeof harvardApiResponseSchema>;
