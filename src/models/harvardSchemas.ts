@@ -31,6 +31,9 @@ export const harvardArtworkSchema = z.object({
     .nullable()
     .optional(),
   blurredDataUrl: z.string().optional(),
+  medium: z.string().nullable().optional(),
+  period: z.string().nullable().optional(),
+  culture: z.string().nullable().optional(),
   primaryimageurl: z.string().nullable().optional(),
   artistDisplay: z.string().nullable().optional(),
   categoryTitles: z.array(z.string()).optional(),

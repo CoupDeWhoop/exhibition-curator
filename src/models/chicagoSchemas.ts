@@ -32,9 +32,11 @@ export const chicagoArtworkSchema = z.object({
   date_display: z.string().nullable(),
   artist_title: z.string().nullable(),
   artist_display: z.string().nullable().optional(),
+  place_of_origin: z.string().nullable().optional(),
   thumbnail: thumbnailSchema.nullable(),
   description: z.string().nullable().optional(),
   image_id: z.string().nullable(),
+  medium_display: z.string().nullable().optional(),
   blurredDataUrl: z.string().optional(),
   imageUrl: z.string().optional(),
   category_titles: z.array(z.string()).optional(),
@@ -43,7 +45,7 @@ export const chicagoArtworkSchema = z.object({
 export type ChicagoArtwork = z.infer<typeof chicagoArtworkSchema>;
 
 export const chicagoApiResponseSchema = z.object({
-  pagination: chicagoPaginationSchema,
+  pagination: chicagoPaginationSchema.optional(),
   data: z.union([z.array(chicagoArtworkSchema), chicagoArtworkSchema]),
   config: configSchema,
 });

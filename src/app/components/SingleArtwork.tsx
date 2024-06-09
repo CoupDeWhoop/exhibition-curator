@@ -28,13 +28,14 @@ function ArtworkDescription({ description }: Description) {
   if (description)
     return (
       <div
-        className="text-xl"
+        className="text-xl pb-4"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     );
 }
 
 export default async function SingleArtwork({ artwork, museum }: Props) {
+  console.log(artwork);
   return (
     <section className="p-4">
       <div>
@@ -51,14 +52,22 @@ export default async function SingleArtwork({ artwork, museum }: Props) {
       </div>
       <div className="max-w-[900px] mx-auto">
         <h1 className="text-3xl pb-4">{artwork.title}</h1>
-        <p className="text-xl pb-4 text-gray-500">{artwork.dateDisplay}</p>
-        <p className="text-xl pb-4 text-gray-500">{artwork.artistDisplay}</p>
-        {artwork.placeOfOrigin && (
-          <p className="text-xl pb-4 text-gray-500">
-            {artwork.placeOfOrigin} (Place of origin)
-          </p>
+        {artwork.dateDisplay && (
+          <p className="text-xl pb-4 text-gray-500">{artwork.dateDisplay}</p>
+        )}
+        {artwork.artistDisplay && (
+          <p className="text-xl pb-4 text-gray-500">{artwork.artistDisplay}</p>
+        )}
+        {artwork.culture && (
+          <p className="text-xl pb-4 text-gray-500">{artwork.culture}</p>
         )}
         <ArtworkDescription description={artwork.description} />
+        {artwork.medium && (
+          <p className="text-xl pb-4 text-gray-500">{artwork.medium}</p>
+        )}
+        {artwork.period && (
+          <p className="text-xl pb-4 text-gray-500">{artwork.period}</p>
+        )}
         <div className="flex gap-4">
           {artwork.categoryTitles &&
             artwork.categoryTitles.map((category: string, index: number) => (

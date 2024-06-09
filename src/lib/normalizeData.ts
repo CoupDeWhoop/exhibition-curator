@@ -21,6 +21,7 @@ import {
   isChicagoArtworksResults,
   isHarvardArtworkResults,
 } from "@/models/typeGuards";
+import { parse } from "path";
 
 export type ApiResponse = ChicagoArtworksResults | HarvardArtworkResults;
 
@@ -100,6 +101,9 @@ export const normalizeItem = (
         artistDisplay: parsedItem.artist_display,
         altText: parsedItem.thumbnail?.alt_text || parsedItem.title,
         description: parsedItem.description,
+        medium: parsedItem.medium_display,
+        period: null,
+        culture: parsedItem.place_of_origin,
         imageUrl: generateImageUrl(parsedItem),
         blurredDataUrl: parsedItem.blurredDataUrl,
         categoryTitles: parsedItem.category_titles,
@@ -121,6 +125,9 @@ export const normalizeItem = (
         artistDisplay: null,
         altText: altText || parsedItem.title,
         description: parsedItem.description,
+        medium: parsedItem.medium,
+        period: parsedItem.period,
+        culture: parsedItem.culture,
         imageUrl: parsedItem.primaryimageurl || "/images/no-image.png",
         blurredDataUrl: parsedItem.blurredDataUrl,
         categoryTitles: null,

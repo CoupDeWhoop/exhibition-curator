@@ -7,7 +7,6 @@ export default function getPrevNextPage(artworks: NormalizedArtworksResults) {
   if (!artworks.pagination) return { prevPage, nextPage };
 
   const { page, totalPages } = artworks.pagination;
-  console.log(page, totalPages);
 
   if (page >= totalPages) {
     nextPage = null;

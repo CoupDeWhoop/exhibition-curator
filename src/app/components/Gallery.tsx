@@ -41,13 +41,13 @@ export default async function Gallery({
     }
     case "harvard": {
       if (topic === "artworks" && page) {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&page=${page}`;
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&page=${page}`;
       } else if (topic === "artworks") {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}`;
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings`;
+        console.log(url);
       } else if (!page) {
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}`;
       } else {
-        console.log(`searching topic ${topic} in harvard`);
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}&page=${page}`;
       }
       break;
@@ -58,6 +58,7 @@ export default async function Gallery({
   }
 
   artworks = await fetchArtworks(url, museum);
+  console.log(artworks);
 
   // if (!artworks || artworks.pagination.total === 0) need this back after harvard
   if (!artworks! || artworks.pagination?.totalRecords === 0)
