@@ -29,7 +29,7 @@ export default function Search() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search"
-        className="bg-white py-2 px-3 w-[260px] sm:w-80 text-xl rounded-xl text-black"
+        className="bg-white py-2 px-3 w-[280px] md:w-[260px] sm:w-[220px] text-xl rounded-xl text-black"
       />
     </form>
   );

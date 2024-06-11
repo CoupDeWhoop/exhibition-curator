@@ -68,7 +68,7 @@ export default async function Gallery({
   return (
     <>
       {!page && (
-        <p className="text-2xl sm:text-3xl text-gray-500 pb-8 sm:max-w-[70%]">
+        <p className="text-2xl sm:text-3xl p-4 px-10 sm:px-5 text-gray-500 pb-8 md:max-w-[70%]">
           Explore artworks from a growing collection of artworks and objects
           from different museums around the world.
         </p>
