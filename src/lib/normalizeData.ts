@@ -105,6 +105,8 @@ export const normalizeItem = (
         period: null,
         culture: parsedItem.place_of_origin,
         imageUrl: generateImageUrl(parsedItem),
+        height: parsedItem.thumbnail?.height || 275,
+        width: parsedItem.thumbnail?.width || 275,
         blurredDataUrl: parsedItem.blurredDataUrl,
         categoryTitles: parsedItem.category_titles,
         // detailsUrl: `/museum1/item/${parsedItem.id}`,
@@ -116,7 +118,6 @@ export const normalizeItem = (
       const { dateDisplay, artistTitle } = generateHarvardNameandDate(
         parsedItem.people
       );
-
       const newRecord = {
         id: parsedItem.id,
         title: parsedItem.title,
@@ -128,7 +129,10 @@ export const normalizeItem = (
         medium: parsedItem.medium,
         period: parsedItem.period,
         culture: parsedItem.culture,
-        imageUrl: parsedItem.primaryimageurl || "/images/no-image.png",
+        imageUrl:
+          parsedItem.images?.[0]?.baseimageurl ?? "/images/no-image.png", // images can be an empty array
+        height: parsedItem.images?.[0]?.height || 250,
+        width: parsedItem.images?.[0]?.width || 250,
         blurredDataUrl: parsedItem.blurredDataUrl,
         categoryTitles: null,
       };

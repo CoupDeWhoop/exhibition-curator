@@ -26,6 +26,9 @@ export const harvardArtworkSchema = z.object({
     .array(
       z.object({
         alttext: z.string().nullable().optional(),
+        width: z.number().nullable().optional(),
+        height: z.number().nullable().optional(),
+        baseimageurl: z.string().nullable().optional(),
       })
     )
     .nullable()

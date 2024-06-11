@@ -3,7 +3,6 @@ import ImgContainer from "./ImgContainer";
 import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
-import Link from "next/link";
 import { NormalizedArtworksResults } from "@/models/normalizedSchema";
 
 type Props = {
@@ -36,7 +35,6 @@ export default async function Gallery({
         // search results beyond first page
         url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
       }
-      // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
       break;
     }
     case "harvard": {
@@ -44,7 +42,6 @@ export default async function Gallery({
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&page=${page}`;
       } else if (topic === "artworks") {
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings`;
-        console.log(url);
       } else if (!page) {
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}`;
       } else {
@@ -70,22 +67,17 @@ export default async function Gallery({
 
   return (
     <>
-      <section className="grid my-3 grid-cols-gallery divide-x min-w-1">
+      {!page && (
+        <p className="text-2xl sm:text-3xl text-gray-500 pb-8 sm:max-w-[70%]">
+          Explore artworks from a growing collection of artworks and objects
+          from different museums around the world.
+        </p>
+      )}
+      <section className="grid grid-cols-gallery min-w-1">
         {/* min-w-1 needed for handling the text whitespace  */}
+
         {photosWithBlur.map((artwork) => (
-          <div
-            key={artwork.id}
-            // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
-            className="p-2"
-          >
-            <Link href={`/artwork/${museum}/${artwork.id}`}>
-              <ImgContainer
-                key={artwork.id}
-                artwork={artwork}
-                museum={museum}
-              />
-            </Link>
-          </div>
+          <ImgContainer key={artwork.id} artwork={artwork} museum={museum} />
         ))}
       </section>
       <Footer {...footerProps} />

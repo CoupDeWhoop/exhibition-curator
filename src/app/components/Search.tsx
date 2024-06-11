@@ -11,9 +11,8 @@ export default function Search() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const museumMatch = pathname.match(/\w+/);
-    const basePath =
-      pathname === "/" ? "chicago" : museumMatch ? museumMatch[0] : "";
+    const museumMatch = pathname.match(/\w+/)?.[0];
+    const basePath = pathname === "/" ? "chicago" : museumMatch ?? "";
 
     router.push(`/${basePath}/results/${search}`);
     setSearch("");

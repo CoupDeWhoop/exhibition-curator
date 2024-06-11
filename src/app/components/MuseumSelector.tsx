@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function MuseumSelector() {
   const router = useRouter();
+
   const [selectedMuseum, setSelectedMuseum] = useState<string | null>(null);
   useEffect(() => {
     if (selectedMuseum) {
@@ -15,12 +16,9 @@ export default function MuseumSelector() {
   function handleMuseumSelect(museum: string) {
     setSelectedMuseum(museum);
   }
+
   return (
     <section className="max-w-7xl mx-auto p-4 border-b-[1px] border-gray-200">
-      <p className="text-2xl sm:text-3xl text-gray-500 pb-8 sm:max-w-[70%]">
-        Explore artworks from a growing collection of artworks and objects from
-        different museums around the world.
-      </p>
       <nav className={josefin.className}>
         <ul className="flex flex-col md:flex-row text-xl sm:text-2xl uppercase">
           <li
