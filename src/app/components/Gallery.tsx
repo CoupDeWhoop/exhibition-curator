@@ -3,7 +3,6 @@ import ImgContainer from "./ImgContainer";
 import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
-import Link from "next/link";
 import { NormalizedArtworksResults } from "@/models/normalizedSchema";
 
 type Props = {
@@ -36,7 +35,6 @@ export default async function Gallery({
         // search results beyond first page
         url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
       }
-      // "https://api.artic.edu/api/v1/artworks/search?query[term][is_public_domain]=true&limit=2&fields=id,title,image_id,thumbnail";
       break;
     }
     case "harvard": {
@@ -44,7 +42,6 @@ export default async function Gallery({
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&page=${page}`;
       } else if (topic === "artworks") {
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings`;
-        console.log(url);
       } else if (!page) {
         url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}`;
       } else {
@@ -58,9 +55,7 @@ export default async function Gallery({
   }
 
   artworks = await fetchArtworks(url, museum);
-  console.log(artworks);
 
-  // if (!artworks || artworks.pagination.total === 0) need this back after harvard
   if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;
 
@@ -70,44 +65,19 @@ export default async function Gallery({
 
   const footerProps = { topic, page, nextPage, prevPage, museum };
 
-  const columns = 4;
-  const columnLimit = Math.ceil(photosWithBlur.length / columns);
-
-  // Create an array of arrays to store images for each set of columns
-  const columnSets = [];
-  for (let i = 0; i < columns; i++) {
-    const start = i * columnLimit;
-    const end = Math.min(start + columnLimit, photosWithBlur.length);
-    columnSets.push(photosWithBlur.slice(start, end));
-  }
-
   return (
     <>
-      <section className="my-3 flex min-w-1">
-        {columnSets.map((columnSet, columnIndex) => (
-          <div
-            key={columnIndex}
-            className="flex-1  border-gray-200 px-3 border-r-[1px] last:border-r-0 min-w-1"
-          >
-            {/* the extra div is just for creating a gap in the image borders */}
-            <div className="gap-2">
-              {columnSet.map((artwork, rowIndex) => (
-                <div
-                  key={`${columnIndex}-${rowIndex}`}
-                  // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
-                  className="border-b-[1px] border-gray-200 last:border-b-0"
-                >
-                  <Link href={`/artwork/${museum}/${artwork.id}`}>
-                    <ImgContainer
-                      key={artwork.id}
-                      artwork={artwork}
-                      museum={museum}
-                    />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
+      {!page && (
+        <p className="text-2xl sm:text-3xl p-4 px-10 sm:px-5 text-gray-500 pb-8 md:max-w-[70%]">
+          Explore artworks from a growing collection of artworks and objects
+          from different museums around the world.
+        </p>
+      )}
+      <section className="grid grid-cols-gallery min-w-1">
+        {/* min-w-1 needed for handling the text whitespace  */}
+
+        {photosWithBlur.map((artwork) => (
+          <ImgContainer key={artwork.id} artwork={artwork} museum={museum} />
         ))}
       </section>
       <Footer {...footerProps} />

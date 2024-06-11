@@ -1,5 +1,3 @@
-import MuseumSelector from "../components/MuseumSelector";
-
 export default function DashboardLayout({
   children,
 }: {
@@ -7,7 +5,6 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <MuseumSelector />
       <section>{children}</section>
     </>
   );
