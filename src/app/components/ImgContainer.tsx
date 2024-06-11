@@ -19,19 +19,18 @@ function chooseLoader(museum: string) {
 
 export default function ImgContainer({ artwork, museum }: Props) {
   return (
-    <div className="p-1 py-6 rounded-xl group">
-      <Image
-        loader={chooseLoader(museum)}
-        src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
-        // src={"42/249/large_1862_0005__0001_.jpg"}
-        // (?.) ensures that you safely access alt_text even if thumbnail is null or undefined. avoids error
-        alt={artwork.altText || artwork.title}
-        height={250}
-        width={250}
-        placeholder="blur"
-        blurDataURL={artwork.blurredDataUrl}
-        className="h-full w-full object-contain group-hover:opacity-75"
-      />
+    <>
+      <div className="p-1 py-6 h-64 relative overflow-hidden group">
+        <Image
+          loader={chooseLoader(museum)}
+          src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
+          alt={artwork.altText || artwork.title}
+          fill={true}
+          placeholder="blur"
+          blurDataURL={artwork.blurredDataUrl}
+          className="object-cover group-hover:opacity-75"
+        />
+      </div>
       <div className="pb-8 pt-4">
         <p>{artwork.id}</p>
         <h2 className="sm:text-2xl truncate whitespace-normal">{`${artwork.title}, ${artwork.dateDisplay}`}</h2>
@@ -41,6 +40,6 @@ export default function ImgContainer({ artwork, museum }: Props) {
           </h4>
         )}
       </div>
-    </div>
+    </>
   );
 }

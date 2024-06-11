@@ -58,9 +58,7 @@ export default async function Gallery({
   }
 
   artworks = await fetchArtworks(url, museum);
-  console.log(artworks);
 
-  // if (!artworks || artworks.pagination.total === 0) need this back after harvard
   if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;
 
@@ -70,43 +68,23 @@ export default async function Gallery({
 
   const footerProps = { topic, page, nextPage, prevPage, museum };
 
-  const columns = 4;
-  const columnLimit = Math.ceil(photosWithBlur.length / columns);
-
-  // Create an array of arrays to store images for each set of columns
-  const columnSets = [];
-  for (let i = 0; i < columns; i++) {
-    const start = i * columnLimit;
-    const end = Math.min(start + columnLimit, photosWithBlur.length);
-    columnSets.push(photosWithBlur.slice(start, end));
-  }
-
   return (
     <>
-      <section className="my-3 flex min-w-1">
-        {columnSets.map((columnSet, columnIndex) => (
+      <section className="grid my-3 grid-cols-gallery divide-x min-w-1">
+        {/* min-w-1 needed for handling the text whitespace  */}
+        {photosWithBlur.map((artwork) => (
           <div
-            key={columnIndex}
-            className="flex-1  border-gray-200 px-3 border-r-[1px] last:border-r-0 min-w-1"
+            key={artwork.id}
+            // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
+            className="p-2"
           >
-            {/* the extra div is just for creating a gap in the image borders */}
-            <div className="gap-2">
-              {columnSet.map((artwork, rowIndex) => (
-                <div
-                  key={`${columnIndex}-${rowIndex}`}
-                  // className="flex-grow max-w-xs md:max-w-sm flex justify-center"
-                  className="border-b-[1px] border-gray-200 last:border-b-0"
-                >
-                  <Link href={`/artwork/${museum}/${artwork.id}`}>
-                    <ImgContainer
-                      key={artwork.id}
-                      artwork={artwork}
-                      museum={museum}
-                    />
-                  </Link>
-                </div>
-              ))}
-            </div>
+            <Link href={`/artwork/${museum}/${artwork.id}`}>
+              <ImgContainer
+                key={artwork.id}
+                artwork={artwork}
+                museum={museum}
+              />
+            </Link>
           </div>
         ))}
       </section>
