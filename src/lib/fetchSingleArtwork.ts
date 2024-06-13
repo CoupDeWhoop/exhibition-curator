@@ -1,17 +1,15 @@
 import type { ChicagoArtworksResults } from "@/models/chicagoSchemas";
 import { extractApiData, normalizeData, normalizeItem } from "./normalizeData";
 import {
-  NormalizedArtwork,
   NormalizedArtworksResults,
   normalizedItemSchema,
-  normalizedResponseSchema,
 } from "@/models/normalizedSchema";
 import { HarvardArtworkResults } from "@/models/harvardSchemas";
 
 export default async function fetchSingleArtwork(
   imageId: string,
   museum: string
-): Promise<NormalizedArtwork | undefined> {
+): Promise<NormalizedArtworksResults | undefined> {
   let res;
   try {
     switch (museum) {
@@ -34,14 +32,14 @@ export default async function fetchSingleArtwork(
     const artworkResult: ChicagoArtworksResults | HarvardArtworkResults =
       await res.json();
 
-    const extractedData = extractApiData(artworkResult);
+    const { data } = extractApiData(artworkResult);
 
-    const normalizedData = normalizeData(extractedData.data, museum);
+    const normalizedData = normalizeData(data, museum);
 
     const parsedData = normalizedItemSchema.parse(normalizedData);
 
     if (!Array.isArray(parsedData)) {
-      return parsedData;
+      return { data: parsedData };
     } else {
       console.error("Expected single artwork object, received array.");
       return undefined;

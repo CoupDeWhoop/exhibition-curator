@@ -1,12 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
 import { josefin } from "../fonts";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function MuseumSelector() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const [selectedMuseum, setSelectedMuseum] = useState<string | null>(null);
+
+  useEffect(() => {
+    const path = pathname.split("/")[1];
+    if (path) {
+      setSelectedMuseum(path);
+    } else {
+      setSelectedMuseum("chicago");
+    }
+  }, [pathname]);
+
   useEffect(() => {
     if (selectedMuseum) {
       router.push(`/${selectedMuseum}/gallery`);
@@ -18,9 +29,9 @@ export default function MuseumSelector() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-6 border-b-[1px] border-gray-200">
+    <section className="max-w-7xl px-4 mx-auto py-6 border-b-[1px] border-gray-200">
       <nav className={josefin.className}>
-        <ul className="flex flex-col gap-2 items-center md:flex-row text-xl whitespace-nowrap sm:text-2xl uppercase">
+        <ul className="flex flex-col md:flex-row gap-2 items-center text-xl xs:whitespace-nowrap sm:text-2xl uppercase">
           <li
             className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
               !selectedMuseum || selectedMuseum === "chicago"
@@ -44,7 +55,7 @@ export default function MuseumSelector() {
             </label>
           </li>
           <li
-            className={`p-2 ${
+            className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
               selectedMuseum === "harvard"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
@@ -61,6 +72,26 @@ export default function MuseumSelector() {
             />
             <label htmlFor="harvard" className="cursor-pointer">
               Harvard art museum
+            </label>
+          </li>
+          <li
+            className={`p-2 ${
+              selectedMuseum === "exhibit"
+                ? "md:underline md:outline-none outline underline-offset-[16px]"
+                : ""
+            } `}
+          >
+            <input
+              type="radio"
+              id="exhibit"
+              name="museumSelector"
+              value="exhibit"
+              checked={selectedMuseum === "exhibit"}
+              className="opacity-0 absolute"
+              onChange={() => handleMuseumSelect("exhibit")}
+            />
+            <label htmlFor="exhibit" className="cursor-pointer">
+              My Exhibition
             </label>
           </li>
         </ul>

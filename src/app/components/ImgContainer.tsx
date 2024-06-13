@@ -9,7 +9,7 @@ type Props = {
   museum: string;
 };
 
-function chooseLoader(museum: string) {
+export function chooseLoader(museum: string) {
   switch (museum) {
     case "chicago":
       return chicagoImageLoader;
@@ -28,7 +28,7 @@ export default function ImgContainer({ artwork, museum }: Props) {
       className="pt-10 mx-6 border-b-[1px]"
       style={{ gridRow: `span ${photoSpans}` }}
     >
-      <Link href={`/artwork/${museum}/${artwork.id}`}>
+      <Link href={`/${museum}/artwork/${artwork.id}`}>
         <div className="group">
           <Image
             loader={chooseLoader(museum)}
@@ -38,7 +38,7 @@ export default function ImgContainer({ artwork, museum }: Props) {
             width={artwork.width}
             placeholder="blur"
             blurDataURL={artwork.blurredDataUrl}
-            className="w-full h-full object-contain group-hover:opacity-75"
+            className="w-full h-full max-h-[600px] object-contain group-hover:opacity-75"
           />
         </div>
         <div className="pt-4 pb-4">

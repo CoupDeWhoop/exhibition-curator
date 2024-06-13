@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const normalizedItemSchema = z.object({
+  museum: z.string(),
   id: z.number(),
   title: z.string(),
   dateDisplay: z.string().nullable(),

@@ -35,23 +35,23 @@ function ArtworkDescription({ description }: Description) {
 }
 
 export default async function SingleArtwork({ artwork, museum }: Props) {
-  console.log(artwork);
   return (
-    <section className="p-4">
-      <div>
-        <Image
-          loader={chooseLoader(museum)}
-          src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
-          alt={artwork.altText || artwork.title}
-          height={250}
-          width={250}
-          placeholder="blur"
-          blurDataURL={artwork.blurredDataUrl || backupBase64}
-          className="h-full w-full object-contain pb-10 max-h-[700px]"
-        />
-      </div>
-      <div className="max-w-[900px] mx-auto">
-        <h1 className="text-3xl pb-4">{artwork.title}</h1>
+    <section className="p-4 flex flex-col mx-auto pb-10 items-center max-w-[800px]">
+      <Image
+        loader={chooseLoader(museum)}
+        src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
+        alt={artwork.altText || artwork.title}
+        height={artwork.height}
+        width={artwork.width}
+        placeholder="blur"
+        blurDataURL={artwork.blurredDataUrl}
+        className="object-contain pb-10  max-h-[700px]"
+      />
+
+      <div className="mt-4">
+        <div className="flex space-between">
+          <h1 className="text-3xl pb-4">{artwork.title}</h1>
+        </div>
         {artwork.dateDisplay && (
           <p className="text-xl pb-4 text-gray-500">{artwork.dateDisplay}</p>
         )}
@@ -74,7 +74,7 @@ export default async function SingleArtwork({ artwork, museum }: Props) {
               <Link
                 key={`${artwork.id}${index}`}
                 className="underline decoration-1"
-                href="/"
+                href={`/${museum}/results/${category}`}
               >
                 <p className="text-xl pb-4 text-gray-500">{category}</p>
               </Link>

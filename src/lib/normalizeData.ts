@@ -21,7 +21,6 @@ import {
   isChicagoArtworksResults,
   isHarvardArtworkResults,
 } from "@/models/typeGuards";
-import { parse } from "path";
 
 export type ApiResponse = ChicagoArtworksResults | HarvardArtworkResults;
 
@@ -94,6 +93,7 @@ export const normalizeItem = (
     case "chicago": {
       const parsedItem = chicagoArtworkSchema.parse(apiItem);
       return normalizedItemSchema.parse({
+        museum,
         id: parsedItem.id,
         title: parsedItem.title,
         dateDisplay: parsedItem.date_display,
@@ -119,6 +119,7 @@ export const normalizeItem = (
         parsedItem.people
       );
       const newRecord = {
+        museum,
         id: parsedItem.id,
         title: parsedItem.title,
         dateDisplay: dateDisplay || null,

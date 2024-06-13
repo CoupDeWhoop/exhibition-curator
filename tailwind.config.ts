@@ -12,6 +12,13 @@ const config: Config = {
         // grid-cols-gallery
         gallery: "repeat(auto-fit, minmax(275px, 1fr))",
       },
+      maxWidth: {
+        "gallery-item": "600px",
+      },
+      screens: {
+        xs: "475px",
+        md: "900px",
+      },
     },
   },
   plugins: [],

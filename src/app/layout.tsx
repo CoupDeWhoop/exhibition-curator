@@ -27,10 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={cg.className}>
       <body>
-        <NextTopLoader showSpinner={false} />
         <Navbar />
         <MuseumSelector />
-
+        <NextTopLoader showSpinner={true} />
         <main className="max-w-7xl mx-auto">{children}</main>
       </body>
     </html>

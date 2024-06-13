@@ -59,7 +59,7 @@ export default async function Gallery({
   if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;
 
-  const photosWithBlur = await addBlurredDataUrls(artworks);
+  const photosWithBlur = await addBlurredDataUrls(artworks, museum); // just collects array of artwork data
 
   const { prevPage, nextPage } = getPrevNextPage(artworks);
 
@@ -76,9 +76,10 @@ export default async function Gallery({
       <section className="grid grid-cols-gallery min-w-1">
         {/* min-w-1 needed for handling the text whitespace  */}
 
-        {photosWithBlur.map((artwork) => (
-          <ImgContainer key={artwork.id} artwork={artwork} museum={museum} />
-        ))}
+        {Array.isArray(photosWithBlur) &&
+          photosWithBlur.map((artwork) => (
+            <ImgContainer key={artwork.id} artwork={artwork} museum={museum} />
+          ))}
       </section>
       <Footer {...footerProps} />
     </>

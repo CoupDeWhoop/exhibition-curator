@@ -8,11 +8,11 @@ export default function Search() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const museumMatch = pathname.split("/")[1];
+  const basePath = pathname === "/" ? "chicago" : museumMatch ?? "";
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const museumMatch = pathname.match(/\w+/)?.[0];
-    const basePath = pathname === "/" ? "chicago" : museumMatch ?? "";
 
     router.push(`/${basePath}/results/${search}`);
     setSearch("");
@@ -28,8 +28,12 @@ export default function Search() {
         name="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search"
-        className="bg-white py-2 px-3 w-[280px] md:w-[260px] sm:w-[220px] text-xl rounded-xl text-black"
+        placeholder={`Search ${
+          museumMatch === "exhibit" || !museumMatch
+            ? "Chicago"
+            : museumMatch[0].toUpperCase() + museumMatch.slice(1)
+        }`}
+        className="bg-white py-2 px-3 max-w-[95vw] w-[280px] md:w-[260px] sm:w-[220px] text-xl rounded-xl text-black"
       />
     </form>
   );
