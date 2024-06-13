@@ -31,18 +31,18 @@ export default function ArtworkModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-      <div className="relative p-4 max-w-4xl w-full h-full overflow-hidden">
+      <div className=" relative p-4 max-w-4xl w-full h-full flex items-center justify-center overflow-hidden">
         <button
-          className="absolute top-4 right-4 text-white text-2xl"
+          className=" absolute top-4 right-4 text-white text-2xl"
           onClick={onClose}
         >
           &times;
         </button>
-        <div className="flex items-center justify-between">
+        <div className=" flex items-center justify-center">
           <button className="text-white text-2xl p-4" onClick={prevArtwork}>
             &larr;
           </button>
-          <div className="flex-grow text-center">
+          <div className="flex-grow text-center ">
             <Image
               loader={chooseLoader(currentArtwork.museum)}
               src={currentArtwork.imageUrl || PLACEHOLDER_IMAGE_URL}
