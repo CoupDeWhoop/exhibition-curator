@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
-import { PLACEHOLDER_IMAGE_URL } from "@/lib/constants";
 import { chooseLoader } from "./ImgContainer";
 
 type Props = {
@@ -31,29 +30,40 @@ export default function ArtworkModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-      <div className=" relative p-4 max-w-4xl w-full h-full flex items-center justify-center overflow-hidden">
+      <div className="relative p-4 flex flex-col items-center justify-center h-full w-full overflow-hidden">
         <button
-          className=" absolute top-4 right-4 text-white text-2xl"
+          className="absolute top-4 right-4 text-white text-2xl"
           onClick={onClose}
         >
           &times;
         </button>
-        <div className=" flex items-center justify-center">
-          <button className="text-white text-2xl p-4" onClick={prevArtwork}>
+        <div className="flex items-center justify-center h-full w-full">
+          {/* image and arrows */}
+          <button
+            className="text-white text-2xl p-4 h-full"
+            onClick={prevArtwork}
+          >
             &larr;
           </button>
-          <div className="flex-grow text-center ">
-            <Image
-              loader={chooseLoader(currentArtwork.museum)}
-              src={currentArtwork.imageUrl || PLACEHOLDER_IMAGE_URL}
-              alt={currentArtwork.altText || currentArtwork.title}
-              height={currentArtwork.height}
-              width={currentArtwork.width}
-              className="w-full h-full max-h-[90vh] object-contain"
-            />
+          <div className="flex-grow text-center flex flex-col items-center justify-center h-full max-h-full">
+            <div className="flex-grow flex items-center justify-center max-h-full">
+              <Image
+                loader={chooseLoader(currentArtwork.museum)}
+                src={currentArtwork.imageUrl}
+                alt={currentArtwork.altText || currentArtwork.title}
+                height={currentArtwork.height}
+                width={currentArtwork.width}
+                placeholder="blur"
+                blurDataURL={currentArtwork.blurredDataUrl}
+                className="w-full h-full object-contain"
+              />
+            </div>
             <p className="text-white mt-2">{currentArtwork.title}</p>
           </div>
-          <button className="text-white text-2xl p-4" onClick={nextArtwork}>
+          <button
+            className="text-white text-2xl p-4 h-full"
+            onClick={nextArtwork}
+          >
             &rarr;
           </button>
         </div>

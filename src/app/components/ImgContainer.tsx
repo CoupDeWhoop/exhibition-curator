@@ -7,6 +7,7 @@ import Link from "next/link";
 type Props = {
   artwork: NormalizedArtwork;
   museum: string;
+  link: string;
 };
 
 export function chooseLoader(museum: string) {
@@ -18,7 +19,7 @@ export function chooseLoader(museum: string) {
   }
 }
 
-export default function ImgContainer({ artwork, museum }: Props) {
+export default function ImgContainer({ artwork, museum, link }: Props) {
   const widthHeightRatio = artwork.height / artwork.width;
   const galleryHeight = 250 * widthHeightRatio;
   const photoSpans = Math.ceil(galleryHeight / 10) + 10;
@@ -28,7 +29,7 @@ export default function ImgContainer({ artwork, museum }: Props) {
       className="pt-10 mx-6 border-b-[1px]"
       style={{ gridRow: `span ${photoSpans}` }}
     >
-      <Link href={`/${museum}/artwork/${artwork.id}`}>
+      <Link href={link}>
         <div className="group">
           <Image
             loader={chooseLoader(museum)}

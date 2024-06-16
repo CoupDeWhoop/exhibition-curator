@@ -4,6 +4,7 @@ import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
 import { NormalizedArtworksResults } from "@/models/normalizedSchema";
+import Link from "next/link";
 
 type Props = {
   museum?: string | undefined;
@@ -78,7 +79,12 @@ export default async function Gallery({
 
         {Array.isArray(photosWithBlur) &&
           photosWithBlur.map((artwork) => (
-            <ImgContainer key={artwork.id} artwork={artwork} museum={museum} />
+            <ImgContainer
+              key={artwork.id}
+              artwork={artwork}
+              museum={museum}
+              link={`/${museum}/artwork/${artwork.id}`}
+            />
           ))}
       </section>
       <Footer {...footerProps} />
