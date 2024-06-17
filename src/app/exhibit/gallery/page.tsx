@@ -54,7 +54,7 @@ export default function Exhibit() {
               <ImgContainer
                 artwork={artwork}
                 museum={artwork.museum}
-                link={""}
+                link={`gallery/${artwork.museum}/${artwork.id}`}
                 index={index}
                 key={`${artwork.museum}-${artwork.id}`}
               />

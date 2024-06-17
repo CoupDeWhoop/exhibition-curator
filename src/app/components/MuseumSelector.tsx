@@ -10,17 +10,23 @@ export default function MuseumSelector() {
   const [selectedMuseum, setSelectedMuseum] = useState<string | null>(null);
 
   useEffect(() => {
-    const path = pathname.split("/")[1];
-    if (path) {
-      setSelectedMuseum(path);
+    const [base, museum, page] = pathname.split("/");
+    if (page === "gallery" || page === "results") {
+      setSelectedMuseum(museum);
     } else {
-      setSelectedMuseum("chicago");
+      setSelectedMuseum(null);
     }
   }, [pathname]);
 
   useEffect(() => {
     if (selectedMuseum) {
-      router.push(`/${selectedMuseum}/gallery`);
+      const currentPage = pathname.split("/")[2];
+      if (currentPage === "results" && selectedMuseum !== "exhibit") {
+        const searchQuery = pathname.split("/")[3];
+        router.push(`/${selectedMuseum}/results/${searchQuery}`);
+      } else {
+        router.push(`/${selectedMuseum}/gallery`);
+      }
     }
   }, [selectedMuseum]);
 

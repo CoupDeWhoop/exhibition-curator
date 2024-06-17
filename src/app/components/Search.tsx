@@ -33,7 +33,7 @@ export default function Search() {
             ? "Chicago"
             : museumMatch[0].toUpperCase() + museumMatch.slice(1)
         }`}
-        className="bg-white py-2 px-3 max-w-[95vw] w-[280px] md:w-[260px] sm:w-[220px] text-xl rounded-xl text-black"
+        className="bg-white py-2 px-3 max-w-[95vw] w-[280px] xs:w-[200px] md:w-[260px] text-xl rounded-xl text-black"
       />
     </form>
   );
