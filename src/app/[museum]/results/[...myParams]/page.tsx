@@ -1,4 +1,6 @@
 import Gallery from "@/app/components/Gallery";
+import Loading from "@/app/loading";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -20,5 +22,11 @@ export default function SearchResults({ params: { myParams, museum } }: Props) {
   const topic = myParams?.[0] ?? "artworks";
   const page = myParams?.[1] ?? "1";
 
-  return <Gallery topic={topic} page={page} museum={museum} />;
+  return (
+    <>
+      <Suspense fallback={<Loading />}>
+        <Gallery topic={topic} page={page} museum={museum} />
+      </Suspense>
+    </>
+  );
 }

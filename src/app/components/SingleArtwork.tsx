@@ -55,12 +55,11 @@ export default async function SingleArtwork({ artwork, museum }: Props) {
         {artwork.dateDisplay && (
           <p className="text-xl pb-4 text-gray-500">{artwork.dateDisplay}</p>
         )}
-        {artwork.artistDisplay ||
-          (artwork.artistTitle && (
-            <p className="text-xl pb-4 text-gray-500">
-              {artwork.artistDisplay || artwork.artistTitle}
-            </p>
-          ))}
+        {(artwork.artistDisplay || artwork.artistTitle) && (
+          <p className="text-xl pb-4 text-gray-500">
+            {artwork.artistDisplay || artwork.artistTitle}
+          </p>
+        )}
         {artwork.culture && (
           <p className="text-xl pb-4 text-gray-500">{artwork.culture}</p>
         )}
