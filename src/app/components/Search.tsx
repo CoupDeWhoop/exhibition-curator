@@ -13,8 +13,7 @@ export default function Search() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    router.push(`/${basePath}/results/${search}`);
+    if (search) router.push(`/${basePath}/results/${search}`);
     setSearch("");
   };
 
