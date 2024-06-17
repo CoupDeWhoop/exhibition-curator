@@ -24,7 +24,6 @@ export default function MuseumSelector() {
                   ? `/chicago/results/${searchQuery}`
                   : `/chicago/gallery`
               }
-              prefetch={true}
             >
               Art Institute Chicago
             </Link>
@@ -42,7 +41,6 @@ export default function MuseumSelector() {
                   ? `/harvard/results/${searchQuery}`
                   : `/harvard/gallery`
               }
-              prefetch={true}
             >
               Harvard art museum
             </Link>
@@ -54,9 +52,7 @@ export default function MuseumSelector() {
                 : ""
             } `}
           >
-            <Link href="/exhibit/gallery" prefetch={true}>
-              My Exhibition
-            </Link>
+            <Link href="/exhibit/gallery">My Exhibition</Link>
           </li>
         </ul>
       </nav>
