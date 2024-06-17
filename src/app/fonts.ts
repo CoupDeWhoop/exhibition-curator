@@ -1,4 +1,9 @@
-import { Josefin_Sans } from "next/font/google";
+import { Josefin_Sans, Cormorant } from "next/font/google";
+
+export const cormorant = Cormorant({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const josefin = Josefin_Sans({
   weight: ["300"],

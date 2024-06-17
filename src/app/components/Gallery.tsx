@@ -4,7 +4,6 @@ import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
 import { NormalizedArtworksResults } from "@/models/normalizedSchema";
-import Link from "next/link";
 
 type Props = {
   museum?: string | undefined;
@@ -40,13 +39,13 @@ export default async function Gallery({
     }
     case "harvard": {
       if (topic === "artworks" && page) {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&page=${page}`;
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&page=${page}&hasimage=1&q:{}_exists_:primaryimageurl`;
       } else if (topic === "artworks") {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings`;
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&hasimage=1&q_exists_:primaryimageurl`;
       } else if (!page) {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}`;
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}&q_exists_:primaryimageurl`;
       } else {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}&page=${page}`;
+        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}&page=${page}&hasimage=1&q_exists_:primaryimageurl`;
       }
       break;
     }
@@ -78,12 +77,13 @@ export default async function Gallery({
         {/* min-w-1 needed for handling the text whitespace  */}
 
         {Array.isArray(photosWithBlur) &&
-          photosWithBlur.map((artwork) => (
+          photosWithBlur.map((artwork, index) => (
             <ImgContainer
               key={artwork.id}
               artwork={artwork}
               museum={museum}
               link={`/${museum}/artwork/${artwork.id}`}
+              index={index}
             />
           ))}
       </section>

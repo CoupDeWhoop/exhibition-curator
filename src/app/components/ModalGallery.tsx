@@ -30,7 +30,7 @@ export default function ArtworkModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-      <div className="relative p-4 flex flex-col items-center justify-center h-full w-full overflow-hidden">
+      <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden">
         <button
           className="absolute top-4 right-4 text-white text-2xl"
           onClick={onClose}
@@ -45,7 +45,7 @@ export default function ArtworkModal({
           >
             &larr;
           </button>
-          <div className="flex-grow text-center flex flex-col items-center justify-center h-full max-h-full">
+          <div className="flex-grow text-center flex flex-col p-10 items-center justify-center h-full max-h-full">
             <div className="flex-grow flex items-center justify-center max-h-full">
               <Image
                 loader={chooseLoader(currentArtwork.museum)}
@@ -58,7 +58,7 @@ export default function ArtworkModal({
                 className="w-full h-full object-contain"
               />
             </div>
-            <p className="text-white mt-2">{currentArtwork.title}</p>
+            <p className="text-white text-2xl mt-2">{currentArtwork.title}</p>
           </div>
           <button
             className="text-white text-2xl p-4 h-full"

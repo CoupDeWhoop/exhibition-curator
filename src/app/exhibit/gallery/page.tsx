@@ -1,13 +1,11 @@
-// /src/app/components/exhibit.tsx
-
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import ClearButton from "@/app/components/ClearExhibit";
 import ArtworkModal from "@/app/components/ModalGallery";
-import ImgContainer, { chooseLoader } from "@/app/components/ImgContainer";
+import ImgContainer from "@/app/components/ImgContainer";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
-import { PLACEHOLDER_IMAGE_URL } from "@/lib/constants";
+import Draggable from "react-draggable";
+import Image from "next/image";
 
 export default function Exhibit() {
   const [museumCollection, setMuseumCollection] = useState<
@@ -24,55 +22,41 @@ export default function Exhibit() {
     setMuseumCollection(parsedCollection);
   }, [cleared]);
 
-  const openModal = (index: number) => {
-    setCurrentIndex(index);
+  const openModal = () => {
+    setCurrentIndex(0);
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
   };
-  //border-2 border-blue-500
 
   return (
     <section className="pb-10 px-6 ">
       <p className="text-2xl sm:text-3xl  text-gray-500 py-6 md:max-w-[70%]">
         {museumCollection && museumCollection.length > 0
           ? "Your beautifully curated exhibition, well done you!"
-          : "Add something to your collection. 🖼️"}
+          : "Works added to your collection will appear here. 🖼️"}
       </p>
+      <button
+        onClick={openModal}
+        className={
+          "bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+        }
+      >
+        Open slideshow
+      </button>
       <div className="grid grid-cols-gallery">
         {museumCollection &&
-          museumCollection.map(
-            (artwork, index) => (
-              <ImgContainer
-                artwork={artwork}
-                museum={artwork.museum}
-                link={"/"}
-              />
-            )
-            // <div
-            //   key={`${artwork.museum}-${artwork.id}`}
-            //   // className="flex-grow basis-[calc(33%-1rem)] max-w-[calc(33%-1rem)]"
-            //   className="flex-grow"
-            // >
-            //   <div
-            //     onClick={() => openModal(index)}
-            //     className="cursor-pointer border-black border-2"
-            //   >
-            //     <Image
-            //       loader={chooseLoader(artwork.museum)}
-            //       src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
-            //       alt={artwork.altText || artwork.title}
-            //       height={artwork.height}
-            //       width={artwork.width}
-            //       placeholder="blur"
-            //       blurDataURL={artwork.blurredDataUrl}
-            //       className="h-full w-full object-contain"
-            //     />
-            //   </div>
-            // </div>
-          )}
+          museumCollection.map((artwork, index) => (
+            <ImgContainer
+              artwork={artwork}
+              museum={artwork.museum}
+              link={""}
+              index={index}
+              key={`${artwork.museum}-${artwork.id}`}
+            />
+          ))}
       </div>
       <div className="flex justify-center pt-6">
         <ClearButton setCleared={setCleared} />

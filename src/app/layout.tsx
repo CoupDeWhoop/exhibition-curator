@@ -1,15 +1,9 @@
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { cormorant } from "./fonts";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import MuseumSelector from "./components/MuseumSelector";
-
-const cg = Cormorant_Garamond({
-  weight: ["300", "600"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const revalidate = 3600;
 
@@ -25,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cg.className}>
+    <html lang="en" className={cormorant.className}>
       <body>
         <Navbar />
         <MuseumSelector />

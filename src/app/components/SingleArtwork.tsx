@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { chicagoImageLoader, harvardImageLoader } from "../loader";
+import { chicagoImageLoader, harvardImageLoader } from "../../lib/loader";
 import Link from "next/link";
 import { PLACEHOLDER_IMAGE_URL } from "@/lib/constants";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
@@ -55,9 +55,12 @@ export default async function SingleArtwork({ artwork, museum }: Props) {
         {artwork.dateDisplay && (
           <p className="text-xl pb-4 text-gray-500">{artwork.dateDisplay}</p>
         )}
-        {artwork.artistDisplay && (
-          <p className="text-xl pb-4 text-gray-500">{artwork.artistDisplay}</p>
-        )}
+        {artwork.artistDisplay ||
+          (artwork.artistTitle && (
+            <p className="text-xl pb-4 text-gray-500">
+              {artwork.artistDisplay || artwork.artistTitle}
+            </p>
+          ))}
         {artwork.culture && (
           <p className="text-xl pb-4 text-gray-500">{artwork.culture}</p>
         )}
