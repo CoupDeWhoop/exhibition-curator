@@ -2,10 +2,17 @@
 import { josefin } from "../fonts";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function MuseumSelector() {
+  const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
-  const searchQuery = pathname.split("/")[3];
+
+  useEffect(() => {
+    const searchQuery = pathname.split("/")[3];
+    if (searchQuery) setSearchQuery(searchQuery);
+    if (pathname === "/") setSearchQuery("");
+  }, [pathname]);
 
   return (
     <section className="max-w-7xl px-4 mx-auto py-6 border-b-[1px] border-gray-200">
