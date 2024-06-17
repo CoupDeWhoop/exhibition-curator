@@ -26,11 +26,11 @@ async function getBase64(imageUrl: string) {
   try {
     const res = await fetch(imageUrl, {
       // no key is needed for Chicago API but was giving a 403 without this.
-      // headers: {
-      //   "User-Agent":
-      //     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
-      //   "Access-Control-Allow-Origin": "*",
-      // },
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+        "Access-Control-Allow-Origin": "*",
+      },
     });
 
     if (!res.ok)

@@ -16,7 +16,7 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
-  let limit = (30).toString();
+  let limit = (10).toString();
   let url;
   let artworks: NormalizedArtworksResults | undefined;
 
