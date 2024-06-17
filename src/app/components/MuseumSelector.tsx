@@ -10,15 +10,6 @@ export default function MuseumSelector() {
   const [selectedMuseum, setSelectedMuseum] = useState<string | null>(null);
 
   useEffect(() => {
-    const [base, museum, page] = pathname.split("/");
-    if (page === "gallery" || page === "results") {
-      setSelectedMuseum(museum);
-    } else {
-      setSelectedMuseum(null);
-    }
-  }, [pathname]);
-
-  useEffect(() => {
     if (selectedMuseum) {
       const currentPage = pathname.split("/")[2];
       if (currentPage === "results" && selectedMuseum !== "exhibit") {
@@ -40,7 +31,7 @@ export default function MuseumSelector() {
         <ul className="flex flex-col md:flex-row gap-2 items-center text-xl xs:whitespace-nowrap sm:text-2xl uppercase">
           <li
             className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
-              !selectedMuseum || selectedMuseum === "chicago"
+              pathname.split("/")[1] === "chicago"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             }`}
@@ -62,7 +53,7 @@ export default function MuseumSelector() {
           </li>
           <li
             className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
-              selectedMuseum === "harvard"
+              pathname.split("/")[1] === "harvard"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             } `}
@@ -82,7 +73,7 @@ export default function MuseumSelector() {
           </li>
           <li
             className={`p-2 ${
-              selectedMuseum === "exhibit"
+              pathname.split("/")[1] === "exhibit"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             } `}
