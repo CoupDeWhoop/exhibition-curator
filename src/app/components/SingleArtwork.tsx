@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { chicagoImageLoader, harvardImageLoader } from "../../lib/loader";
 import Link from "next/link";
-import { PLACEHOLDER_IMAGE_URL } from "@/lib/constants";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
 
 const backupBase64 =
@@ -39,7 +38,7 @@ export default async function SingleArtwork({ artwork, museum }: Props) {
     <section className="p-4 flex flex-col mx-auto pb-10 items-center max-w-[800px]">
       <Image
         loader={chooseLoader(museum)}
-        src={artwork.imageUrl || PLACEHOLDER_IMAGE_URL}
+        src={artwork.imageUrl}
         alt={artwork.altText || artwork.title}
         height={artwork.height}
         width={artwork.width}

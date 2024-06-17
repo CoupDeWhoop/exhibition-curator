@@ -37,16 +37,19 @@ export default function Exhibit() {
           <p className="text-2xl sm:text-3xl text-gray-500 py-6">
             {museumCollection && museumCollection.length > 0
               ? "Your beautifully curated exhibition, well done you!"
-              : "Works added to your collection will appear here. 🖼️"}
+              : "Works added to your collection will appear here."}
           </p>
-          <button
-            onClick={openModal}
-            className={
-              "bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border whitespace-nowrap border-blue-500 hover:border-transparent rounded"
-            }
-          >
-            Open slideshow
-          </button>
+          {museumCollection && museumCollection.length > 0 && (
+            <button
+              onClick={openModal}
+              disabled={museumCollection?.length === 0}
+              className={
+                "bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border whitespace-nowrap border-blue-500 hover:border-transparent rounded"
+              }
+            >
+              Open slideshow
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-gallery">
           {museumCollection &&

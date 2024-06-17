@@ -9,25 +9,24 @@ type Props = {
 
 export default function AddButton({ artwork }: Props) {
   const [collection, setCollection] = useState<NormalizedArtwork[]>([]);
-  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const collection = localStorage.getItem("collection") || "[]";
-    const parsedCollection: NormalizedArtwork[] = JSON.parse(collection);
+    const storedCollection = localStorage.getItem("collection") || "[]";
+    const parsedCollection: NormalizedArtwork[] = JSON.parse(storedCollection);
     setCollection(parsedCollection);
+
+    if (parsedCollection.some((item) => item.id === artwork.id)) {
+      setSubmitted(true);
+    }
   }, []);
 
   function saveToLocalStorage() {
-    setSubmitting(true);
+    setSubmitted(true);
 
-    const alreadyInCollection = collection.some(
-      (item) => item.id === artwork.id
-    );
-
-    if (alreadyInCollection) {
+    if (collection.some((item) => item.id === artwork.id)) {
       setError("Artwork is already in the collection");
-      setSubmitting(false);
       return;
     }
 
@@ -37,19 +36,21 @@ export default function AddButton({ artwork }: Props) {
   }
 
   return (
-    <div>
+    <div className="text-center pb-10">
       {error && (
         <div className="bg-red-300 text-white p-2 rounded mb-4">{error}</div>
       )}
       {!error && (
         <button
           onClick={saveToLocalStorage}
-          disabled={submitting}
-          className={`bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded ${
-            submitting ? "cursor-default opacity-50 text-white bg-blue-500" : ""
+          disabled={submitted}
+          className={` mx-auto font-semibold py-2 px-4   rounded ${
+            submitted
+              ? "cursor-default opacity-50 text-white bg-blue-500"
+              : " hover:bg-blue-500 text-blue-700  hover:text-white hover:border-transparent bg-transparent border border-blue-500"
           }`}
         >
-          {submitting ? "Added" : "Add to collection"}
+          {submitted ? "Added" : "Add to collection"}
         </button>
       )}
     </div>
