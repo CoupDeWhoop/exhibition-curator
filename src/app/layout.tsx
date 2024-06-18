@@ -5,7 +5,7 @@ import "./globals.css";
 import Navbar from "./components/Nav/Navbar";
 import MuseumSelector from "./components/Nav/MuseumSelector";
 
-// export const revalidate = 3600;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Museum & Gallery Exhibition",
