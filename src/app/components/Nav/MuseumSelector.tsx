@@ -5,14 +5,34 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function MuseumSelector() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQueries, setSearchQueries] = useState({});
+  const [searchPages, setSearchPages] = useState({ harvard: "", chicago: "" });
+
   const pathname = usePathname();
+  const [_, museum, route, query, page] = pathname.split("/");
 
   useEffect(() => {
-    const searchQuery =
-      pathname.split("/")[2] === "results" && pathname.split("/")[3];
-    if (searchQuery) setSearchQuery(searchQuery);
-    if (pathname === "/") setSearchQuery("");
+    if (route === "results") {
+      setSearchQueries((prevQueries) => ({
+        ...prevQueries,
+        [museum]: query,
+      }));
+    }
+    if (pathname === "/") {
+      setSearchQueries({});
+      setSearchPages({ harvard: "", chicago: "" });
+    }
+    if (page) {
+      setSearchPages((prevPages) => ({
+        ...prevPages,
+        [museum]: page,
+      }));
+    } else {
+      setSearchPages((prevPages) => ({
+        ...prevPages,
+        [museum]: "",
+      }));
+    }
   }, [pathname]);
 
   return (
@@ -21,15 +41,15 @@ export default function MuseumSelector() {
         <ul className="flex flex-col md:flex-row gap-2 items-center text-xl xs:whitespace-nowrap sm:text-2xl uppercase">
           <li
             className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
-              pathname.split("/")[1] === "chicago"
+              museum === "chicago"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             }`}
           >
             <Link
               href={
-                searchQuery
-                  ? `/chicago/results/${searchQuery}`
+                "chicago" in searchQueries
+                  ? `/chicago/results/${searchQueries["chicago"]}/${searchPages["chicago"]}`
                   : `/chicago/gallery`
               }
             >
@@ -38,15 +58,15 @@ export default function MuseumSelector() {
           </li>
           <li
             className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
-              pathname.split("/")[1] === "harvard"
+              museum === "harvard"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             } `}
           >
             <Link
               href={
-                searchQuery
-                  ? `/harvard/results/${searchQuery}`
+                "harvard" in searchQueries
+                  ? `/harvard/results/${searchQueries["harvard"]}/${searchPages["harvard"]}`
                   : `/harvard/gallery`
               }
             >
@@ -55,7 +75,7 @@ export default function MuseumSelector() {
           </li>
           <li
             className={`p-2 ${
-              pathname.split("/")[1] === "exhibit"
+              museum === "exhibit"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             } `}

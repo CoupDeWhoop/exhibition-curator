@@ -2,7 +2,7 @@ import { ChicagoArtwork } from "@/models/chicagoSchemas";
 import { RECOMMENDED_SIZE } from "./constants";
 
 export default function generateImageUrl(artwork: ChicagoArtwork): string {
-  //implemented this as some pictures were not high resolution enough in chicago api
+  //implemented this as some pictures were not high resolution enough in chicago api causing crash
 
   const { image_id, thumbnail } = artwork;
   if (thumbnail && image_id) {

@@ -7,14 +7,21 @@ export default function Search() {
   const [search, setSearch] = useState("");
   const router = useRouter();
   const pathname = usePathname();
-
-  const museumMatch = pathname.split("/")[1];
-  const basePath = pathname === "/" ? "chicago" : museumMatch ?? "";
+  const museum = pathname.split("/")[1];
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (search) router.push(`/${basePath}/results/${search}`);
+    if (museum === "exhibit") {
+      router.push(`/chicago/results/${search}`);
+    } else {
+      router.push(`/${museum}/results/${search}`);
+    }
     setSearch("");
+  };
+
+  // to handle autocomplete in search box
+  const handleInput = (e: FormEvent<HTMLInputElement>) => {
+    setSearch(e.currentTarget.value);
   };
 
   return (
@@ -26,11 +33,12 @@ export default function Search() {
         type="text"
         name="search"
         value={search}
+        onInput={handleInput}
         onChange={(e) => setSearch(e.target.value)}
         placeholder={`Search ${
-          museumMatch === "exhibit" || !museumMatch
+          museum === "exhibit" || !museum
             ? "Chicago"
-            : museumMatch[0].toUpperCase() + museumMatch.slice(1)
+            : museum[0].toUpperCase() + museum.slice(1)
         }`}
         className="bg-white py-2 px-3 max-w-[95vw] w-[280px] xs:w-[200px] md:w-[260px] text-xl rounded-xl text-black"
       />
