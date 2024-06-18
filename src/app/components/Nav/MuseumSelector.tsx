@@ -17,21 +17,16 @@ export default function MuseumSelector() {
         ...prevQueries,
         [museum]: query,
       }));
+
+      const searchPage = page || "";
+      setSearchPages((prevPages) => ({
+        ...prevPages,
+        [museum]: searchPage,
+      }));
     }
     if (pathname === "/") {
       setSearchQueries({});
       setSearchPages({ harvard: "", chicago: "" });
-    }
-    if (page) {
-      setSearchPages((prevPages) => ({
-        ...prevPages,
-        [museum]: page,
-      }));
-    } else {
-      setSearchPages((prevPages) => ({
-        ...prevPages,
-        [museum]: "",
-      }));
     }
   }, [pathname]);
 
