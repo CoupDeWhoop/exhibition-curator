@@ -2,6 +2,8 @@
 
 Museum Collection App is a web application built with Next.js and Tailwind CSS. It allows users to browse and curate collections from various museums.
 
+You can try it out [here](https://exhibition-curator.vercel.app/)
+
 ## Getting Started
 
 ### Prerequisites
