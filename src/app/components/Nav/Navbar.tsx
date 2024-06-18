@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { josefin } from "../fonts";
+import { josefin } from "../../fonts";
 
 import React from "react";
 import Search from "./Search";

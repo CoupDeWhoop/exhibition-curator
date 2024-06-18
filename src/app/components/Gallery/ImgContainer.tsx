@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { chicagoImageLoader, harvardImageLoader } from "../../lib/loader";
+import { chicagoImageLoader, harvardImageLoader } from "../../../lib/loader";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
 import Link from "next/link";
 
@@ -39,8 +39,8 @@ export default function ImgContainer({ artwork, museum, link, index }: Props) {
             height={artwork.height}
             width={artwork.width}
             sizes="(min-width: 1360px) 272px, (min-width: 1100px) calc(18.75vw + 21px), (min-width: 840px) calc(33.33vw - 48px), (min-width: 560px) calc(50vw - 48px), calc(100vw - 48px)"
-            placeholder="blur"
-            blurDataURL={artwork.blurredDataUrl}
+            // placeholder="blur"
+            // blurDataURL={artwork.blurredDataUrl}
             className="w-full h-full max-h-[600px] object-contain group-hover:opacity-75"
           />
         </div>

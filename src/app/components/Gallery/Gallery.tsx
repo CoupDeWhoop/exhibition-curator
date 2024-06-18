@@ -1,9 +1,13 @@
 import fetchArtworks from "@/lib/fetchArtworks";
-import ImgContainer from "./ImgContainer";
 import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
-import { NormalizedArtworksResults } from "@/models/normalizedSchema";
+import {
+  NormalizedArtwork,
+  NormalizedArtworksResults,
+} from "@/models/normalizedSchema";
+import ImageGrid from "./ImageGrid";
+import { Suspense } from "react";
 
 type Props = {
   museum?: string | undefined;
@@ -16,7 +20,7 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
-  let limit = (10).toString();
+  let limit = (20).toString();
   let url;
   let artworks: NormalizedArtworksResults | undefined;
 
@@ -59,11 +63,14 @@ export default async function Gallery({
   if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;
 
-  const photosWithBlur = await addBlurredDataUrls(artworks, museum); // just collects array of artwork data
-
   const { prevPage, nextPage } = getPrevNextPage(artworks);
 
   const footerProps = { topic, page, nextPage, prevPage, museum };
+
+  // I've removed this as the performance was terrible in development
+  // const photosWithBlur = addBlurredDataUrls(artworks, museum); // returns artwork data array
+
+  const { data } = artworks;
 
   return (
     <>
@@ -73,20 +80,7 @@ export default async function Gallery({
           from different museums around the world.
         </p>
       )}
-      <section className="grid grid-cols-gallery min-w-1">
-        {/* min-w-1 needed for handling the text whitespace  */}
-
-        {Array.isArray(photosWithBlur) &&
-          photosWithBlur.map((artwork, index) => (
-            <ImgContainer
-              key={artwork.id}
-              artwork={artwork}
-              museum={museum}
-              link={`/${museum}/artwork/${artwork.id}`}
-              index={index}
-            />
-          ))}
-      </section>
+      <ImageGrid data={data} />
       <Footer {...footerProps} />
     </>
   );

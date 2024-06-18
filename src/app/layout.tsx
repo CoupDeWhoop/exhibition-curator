@@ -2,8 +2,8 @@ import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cormorant } from "./fonts";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import MuseumSelector from "./components/MuseumSelector";
+import Navbar from "./components/Nav/Navbar";
+import MuseumSelector from "./components/Nav/MuseumSelector";
 
 // export const revalidate = 3600;
 

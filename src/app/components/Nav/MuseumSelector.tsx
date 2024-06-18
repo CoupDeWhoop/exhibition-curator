@@ -1,5 +1,5 @@
 "use client";
-import { josefin } from "../fonts";
+import { josefin } from "../../fonts";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,7 +9,8 @@ export default function MuseumSelector() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const searchQuery = pathname.split("/")[3];
+    const searchQuery =
+      pathname.split("/")[2] === "results" && pathname.split("/")[3];
     if (searchQuery) setSearchQuery(searchQuery);
     if (pathname === "/") setSearchQuery("");
   }, [pathname]);

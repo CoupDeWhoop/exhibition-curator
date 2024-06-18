@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
-import { chooseLoader } from "./ImgContainer";
+import { chooseLoader } from "../Gallery/ImgContainer";
 
 type Props = {
   artworks: NormalizedArtwork[];

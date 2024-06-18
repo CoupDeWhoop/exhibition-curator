@@ -1,6 +1,4 @@
-import Gallery from "@/app/components/Gallery";
-import Loading from "@/app/loading";
-import { Suspense } from "react";
+import Gallery from "@/app/components/Gallery/Gallery";
 
 type Props = {
   params: {
@@ -8,11 +6,5 @@ type Props = {
   };
 };
 export default function Page({ params: { museum } }: Props) {
-  return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <Gallery museum={museum} />
-      </Suspense>
-    </>
-  );
+  return <Gallery museum={museum} />;
 }

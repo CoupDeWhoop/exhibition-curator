@@ -1,4 +1,4 @@
-import Gallery from "@/app/components/Gallery";
+import Gallery from "@/app/components/Gallery/Gallery";
 import Loading from "@/app/loading";
 import { Suspense } from "react";
 
