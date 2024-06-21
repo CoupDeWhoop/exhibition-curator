@@ -4,8 +4,7 @@ Museum Collection App is a web application built with Next.js and Tailwind CSS. 
 
 You can try it out [here](https://exhibition-curator.vercel.app/)
 
-<p align="center"><strong>Login Screen</strong></p>
-<p align="center"><img src="./assets/screenshots/home.png" alt="Login Screen" width="500"></p>
+<p align="center"><img src="./src/assets/screenshots/curator.png" alt="Login Screen" width="500"></p>
 <br>
 
 ## Getting Started
