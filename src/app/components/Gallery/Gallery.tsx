@@ -20,6 +20,7 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
+  console.log("hello");
   let limit = (20).toString();
   let url;
   let artworks: NormalizedArtworksResults | undefined;
