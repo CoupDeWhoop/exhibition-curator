@@ -13,7 +13,6 @@ describe("fetchArtworks lib function", () => {
     if (Array.isArray(chicagoResponse?.data)) {
       expect(chicagoResponse.data.length).toBe(20);
 
-      console.log(chicagoResponse.data);
       chicagoResponse.data.forEach((artwork) => {
         expect(artwork).toMatchObject({
           id: expect.any(Number),

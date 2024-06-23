@@ -135,7 +135,7 @@ export const normalizeItem = (
         height: parsedItem.images?.[0]?.height || 250,
         width: parsedItem.images?.[0]?.width || 250,
         blurredDataUrl: parsedItem.blurredDataUrl,
-        categoryTitles: null,
+        categoryTitles: [parsedItem.classification],
       };
       return normalizedItemSchema.parse(newRecord);
     }

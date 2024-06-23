@@ -6,7 +6,6 @@ type Props = {
 };
 
 export default async function ImageGrid({ data }: Props) {
-  console.log("grid", data);
   return (
     <section className="grid grid-cols-gallery min-w-1">
       {Array.isArray(data) &&

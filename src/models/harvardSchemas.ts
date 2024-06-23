@@ -40,6 +40,7 @@ export const harvardArtworkSchema = z.object({
   primaryimageurl: z.string().nullable().optional(),
   artistDisplay: z.string().nullable().optional(),
   categoryTitles: z.array(z.string()).optional(),
+  classification: z.string().nullable().optional(),
 });
 
 export type HarvardArtwork = z.infer<typeof harvardArtworkSchema>;
