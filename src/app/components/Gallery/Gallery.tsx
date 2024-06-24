@@ -2,12 +2,8 @@ import fetchArtworks from "@/lib/fetchArtworks";
 import addBlurredDataUrls from "@/lib/getBase64";
 import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
-import {
-  NormalizedArtwork,
-  NormalizedArtworksResults,
-} from "@/models/normalizedSchema";
+import { NormalizedArtworksResults } from "@/models/normalizedSchema";
 import ImageGrid from "./ImageGrid";
-import { Suspense } from "react";
 
 type Props = {
   museum?: string | undefined;
@@ -20,7 +16,6 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
-  console.log("hello");
   let limit = (20).toString();
   let url;
   let artworks: NormalizedArtworksResults | undefined;

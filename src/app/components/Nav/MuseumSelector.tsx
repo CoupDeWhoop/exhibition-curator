@@ -36,7 +36,7 @@ export default function MuseumSelector() {
         <ul className="flex flex-col md:flex-row gap-2 items-center text-xl xs:whitespace-nowrap sm:text-2xl uppercase">
           <li
             className={`md:border-black p-2 md:pr-6 md:border-r-[1px] ${
-              museum === "chicago"
+              !museum || museum === "chicago"
                 ? "md:underline md:outline-none outline underline-offset-[16px]"
                 : ""
             }`}
