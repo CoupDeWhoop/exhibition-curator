@@ -14,6 +14,7 @@ export default function Exhibit() {
   const [collectionUpdated, setCollectionUpdated] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState(false);
+  const [photoToMove, setPhotoToMove] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function Exhibit() {
   const handleEditButtonClick = () => {
     if (editingOrder) {
       setEditingOrder(false);
+      setPhotoToMove(null);
     } else {
       setEditingOrder(true);
     }
@@ -73,7 +75,8 @@ export default function Exhibit() {
                   index={index}
                   key={`${artwork.museum}-${artwork.id}`}
                   editingOrder={editingOrder}
-                  setEditingOrder={setEditingOrder}
+                  photoToMove={photoToMove}
+                  setPhotoToMove={setPhotoToMove}
                   setCollectionUpdated={setCollectionUpdated}
                   museumCollection={museumCollection}
                 />

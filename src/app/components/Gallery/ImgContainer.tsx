@@ -12,7 +12,8 @@ type Props = {
   link: string;
   index: number;
   editingOrder?: boolean;
-  setEditingOrder?: Dispatch<SetStateAction<boolean>>;
+  photoToMove?: number | null;
+  setPhotoToMove?: Dispatch<SetStateAction<number | null>>;
   setCollectionUpdated?: Dispatch<SetStateAction<number>>;
 };
 
@@ -30,12 +31,12 @@ export default function ImgContainer({
   museumCollection,
   museum,
   editingOrder,
-  setEditingOrder,
+  photoToMove,
+  setPhotoToMove,
   setCollectionUpdated,
   link,
   index,
 }: Props) {
-  const [photoToMove, setPhotoToMove] = useState<number | null>(null);
   const ArtworkImage = () => {
     return (
       <div className="group relative">
@@ -66,7 +67,13 @@ export default function ImgContainer({
   };
 
   const handleEditCollection = () => {
-    if (!editingOrder || !museumCollection || !setCollectionUpdated) return;
+    if (
+      !editingOrder ||
+      !museumCollection ||
+      !setPhotoToMove ||
+      !setCollectionUpdated
+    )
+      return;
 
     if (!photoToMove) {
       setPhotoToMove(index);
