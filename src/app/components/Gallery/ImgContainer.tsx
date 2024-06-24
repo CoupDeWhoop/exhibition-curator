@@ -30,7 +30,8 @@ export default function ImgContainer({ artwork, museum, link, index }: Props) {
       className="pt-10 mx-4 border-b-[1px]"
       style={{ gridRow: `span ${photoSpans}` }}
     >
-      <Link href={link}>
+      <Link href={"/"}>
+        {/* <Link href={link}> */}
         <div className="group">
           <Image
             loader={chooseLoader(museum)}
@@ -46,7 +47,6 @@ export default function ImgContainer({ artwork, museum, link, index }: Props) {
         </div>
 
         <div className="pt-4 pb-4">
-          {/* <p>{artwork.id}</p> */}
           <h2 className="sm:text-2xl truncate whitespace-normal line-clamp-2">
             {`${artwork.title}${
               artwork.dateDisplay ? `, ${artwork.dateDisplay}` : ""

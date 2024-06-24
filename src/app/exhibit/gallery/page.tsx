@@ -1,7 +1,7 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
-import ClearButton from "@/app/components/curated/ClearExhibit";
-import ArtworkModal from "@/app/components/curated/ModalGallery";
+import ClearButton from "@/app/components/exhibit/ClearExhibit";
+import ArtworkModal from "@/app/components/exhibit/ModalGallery";
 import ImgContainer from "@/app/components/Gallery/ImgContainer";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
 import Loading from "@/app/loading";
