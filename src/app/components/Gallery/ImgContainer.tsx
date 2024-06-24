@@ -3,7 +3,7 @@ import Image from "next/image";
 import { chicagoImageLoader, harvardImageLoader } from "../../../lib/loader";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type Props = {
   artwork: NormalizedArtwork;
@@ -13,8 +13,7 @@ type Props = {
   index: number;
   editingOrder?: boolean;
   setEditingOrder?: Dispatch<SetStateAction<boolean>>;
-  photoToMove?: number | null;
-  setPhotoToMove?: Dispatch<SetStateAction<number | null>>;
+  setCollectionUpdated?: Dispatch<SetStateAction<number>>;
 };
 
 export function chooseLoader(museum: string) {
@@ -32,11 +31,11 @@ export default function ImgContainer({
   museum,
   editingOrder,
   setEditingOrder,
-  photoToMove,
-  setPhotoToMove,
+  setCollectionUpdated,
   link,
   index,
 }: Props) {
+  const [photoToMove, setPhotoToMove] = useState<number | null>(null);
   const ArtworkImage = () => {
     return (
       <div className="group relative">
@@ -67,7 +66,7 @@ export default function ImgContainer({
   };
 
   const handleEditCollection = () => {
-    if (!editingOrder || !museumCollection || !setPhotoToMove) return;
+    if (!editingOrder || !museumCollection || !setCollectionUpdated) return;
 
     if (!photoToMove) {
       setPhotoToMove(index);
@@ -77,6 +76,7 @@ export default function ImgContainer({
       newOrder.splice(index, 0, ...removed);
       localStorage.setItem("collection", JSON.stringify(newOrder));
       setPhotoToMove(null);
+      setCollectionUpdated((n: number) => n + 1);
     }
   };
 

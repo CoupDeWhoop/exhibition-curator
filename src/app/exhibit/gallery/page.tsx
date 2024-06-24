@@ -11,21 +11,19 @@ export default function Exhibit() {
     NormalizedArtwork[] | null
   >(null);
 
-  const [cleared, setCleared] = useState(1);
+  const [collectionUpdated, setCollectionUpdated] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState(false);
-  const [photoToMove, setPhotoToMove] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
   useEffect(() => {
     const collection = localStorage.getItem("collection") || "[]";
     const parsedCollection = JSON.parse(collection);
     setMuseumCollection(parsedCollection);
-  }, [cleared, photoToMove]);
+  }, [collectionUpdated, collectionUpdated]);
 
   const handleEditButtonClick = () => {
     if (editingOrder) {
-      setPhotoToMove(null);
       setEditingOrder(false);
     } else {
       setEditingOrder(true);
@@ -76,25 +74,28 @@ export default function Exhibit() {
                   key={`${artwork.museum}-${artwork.id}`}
                   editingOrder={editingOrder}
                   setEditingOrder={setEditingOrder}
-                  photoToMove={photoToMove}
-                  setPhotoToMove={setPhotoToMove}
+                  setCollectionUpdated={setCollectionUpdated}
                   museumCollection={museumCollection}
                 />
               ))}
             </div>
-            <div
-              className={`flex justify-center gap-4 pt-6 ${
-                editingOrder ? "collapse" : ""
-              }`}
-            >
-              <ClearButton setCleared={setCleared} />
-              <button
-                onClick={handleEditButtonClick}
-                className={` hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded`}
+            {museumCollection.length > 0 && (
+              <div
+                className={`flex justify-center gap-4 pt-6 ${
+                  editingOrder ? "collapse" : ""
+                }`}
               >
-                Edit order
-              </button>
-            </div>
+                <ClearButton setCollectionUpdated={setCollectionUpdated} />
+                {museumCollection.length > 1 && (
+                  <button
+                    onClick={handleEditButtonClick}
+                    className={` hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded`}
+                  >
+                    Edit order
+                  </button>
+                )}
+              </div>
+            )}
           </>
         )}
 

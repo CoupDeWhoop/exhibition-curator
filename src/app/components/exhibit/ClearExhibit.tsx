@@ -5,10 +5,10 @@ import { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 
 type Props = {
-  setCleared: Dispatch<SetStateAction<number>>;
+  setCollectionUpdated: Dispatch<SetStateAction<number>>;
 };
 
-export default function ClearButton({ setCleared }: Props) {
+export default function ClearButton({ setCollectionUpdated }: Props) {
   const [collection, setCollection] = useState<NormalizedArtwork[]>([]);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function ClearButton({ setCleared }: Props) {
     setSubmitting(true);
     localStorage.removeItem("collection");
     setCollection([]);
-    setCleared((cleared: number) => cleared + 1);
+    setCollectionUpdated((n: number) => n + 1);
     setSubmitting(false);
     setError(null);
   }
