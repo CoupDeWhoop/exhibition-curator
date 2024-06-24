@@ -64,49 +64,52 @@ export default function Exhibit() {
           )}
         </div>
 
-        <div className="grid grid-cols-gallery">
-          {museumCollection &&
-            museumCollection.map((artwork, index) => (
-              <ImgContainer
-                artwork={artwork}
-                museum={artwork.museum}
-                link={`gallery/${artwork.museum}/${artwork.id}`}
-                index={index}
-                key={`${artwork.museum}-${artwork.id}`}
-                editingOrder={editingOrder}
-                setEditingOrder={setEditingOrder}
-                photoToMove={photoToMove}
-                setPhotoToMove={setPhotoToMove}
-                museumCollection={museumCollection}
-              />
-            ))}
-        </div>
-        <div className="flex justify-center gap-4 pt-6">
-          <div className={`${editingOrder ? "collapse" : ""}`}>
-            <ClearButton setCleared={setCleared} />
-          </div>
-          <button
-            onClick={handleEditButtonClick}
-            className={` hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded
-              ${editingOrder ? "bg-blue-500 text-white" : "bg-transparent"}`}
-          >
-            {editingOrder ? "Done" : "Edit order"}
-          </button>
-          {editingOrder && (
+        {museumCollection && (
+          <>
+            <div className="grid grid-cols-gallery">
+              {museumCollection.map((artwork, index) => (
+                <ImgContainer
+                  artwork={artwork}
+                  museum={artwork.museum}
+                  link={`gallery/${artwork.museum}/${artwork.id}`}
+                  index={index}
+                  key={`${artwork.museum}-${artwork.id}`}
+                  editingOrder={editingOrder}
+                  setEditingOrder={setEditingOrder}
+                  photoToMove={photoToMove}
+                  setPhotoToMove={setPhotoToMove}
+                  museumCollection={museumCollection}
+                />
+              ))}
+            </div>
             <div
-              className="fixed flex gap-2 items-center md:left-44 bottom-24 md:bottom-11
-              bg-white p-2 border rounded z-50"
+              className={`flex justify-center gap-4 pt-6 ${
+                editingOrder ? "collapse" : ""
+              }`}
             >
-              <p className="">Click to choose photo. Click again to insert</p>
+              <ClearButton setCleared={setCleared} />
               <button
-                className="font-bold text-blue-700 border-blue-500 hover:bg-blue-500 border p-1 hover:border-transparent rounded hover:text-white "
                 onClick={handleEditButtonClick}
+                className={` hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded`}
               >
-                Done
+                Edit order
               </button>
             </div>
-          )}
-        </div>
+          </>
+        )}
+
+        {editingOrder && (
+          <div className="fixed flex gap-2 items-center bottom-11 w-[345px] max-w-[95%] bg-white p-2 border mx-auto left-2 right-2 rounded z-50">
+            <p className="">Click to choose photo. Click again to insert</p>
+            <button
+              className="font-bold text-blue-700 border-blue-500 hover:bg-blue-500 border p-1 hover:border-transparent rounded hover:text-white "
+              onClick={handleEditButtonClick}
+            >
+              Done
+            </button>
+          </div>
+        )}
+
         {modalOpen && museumCollection && (
           <ArtworkModal
             artworks={museumCollection}

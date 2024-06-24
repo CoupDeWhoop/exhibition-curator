@@ -65,6 +65,7 @@ export default function ImgContainer({
       </div>
     );
   };
+
   const handleEditCollection = () => {
     if (!editingOrder || !museumCollection || !setPhotoToMove) return;
 
@@ -72,7 +73,7 @@ export default function ImgContainer({
       setPhotoToMove(index);
     } else {
       const newOrder = [...museumCollection];
-      const removed = newOrder.splice(photoToMove);
+      const removed = newOrder.splice(photoToMove, 1);
       newOrder.splice(index, 0, ...removed);
       localStorage.setItem("collection", JSON.stringify(newOrder));
       setPhotoToMove(null);
