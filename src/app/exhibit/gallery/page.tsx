@@ -13,13 +13,15 @@ export default function Exhibit() {
 
   const [cleared, setCleared] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [photoToMove, setPhotoToMove] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
   useEffect(() => {
     const collection = localStorage.getItem("collection") || "[]";
     const parsedCollection = JSON.parse(collection);
     setMuseumCollection(parsedCollection);
-  }, [cleared]);
+  }, [cleared, photoToMove]);
 
   const openModal = () => {
     if (currentIndex === -1) setCurrentIndex(0);
@@ -60,11 +62,22 @@ export default function Exhibit() {
                 link={`gallery/${artwork.museum}/${artwork.id}`}
                 index={index}
                 key={`${artwork.museum}-${artwork.id}`}
+                editing={editing}
+                setEditing={setEditing}
+                photoToMove={photoToMove}
+                setPhotoToMove={setPhotoToMove}
+                museumCollection={museumCollection}
               />
             ))}
         </div>
-        <div className="flex justify-center pt-6">
+        <div className="flex justify-center gap-4 pt-6">
           <ClearButton setCleared={setCleared} />
+          <button
+            onClick={() => setEditing(!editing)}
+            className={`bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded`}
+          >
+            Edit order
+          </button>
         </div>
         {modalOpen && museumCollection && (
           <ArtworkModal
