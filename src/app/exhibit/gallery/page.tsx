@@ -13,7 +13,7 @@ export default function Exhibit() {
 
   const [cleared, setCleared] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing] = useState(false);
+  const [editingOrder, setEditingOrder] = useState(false);
   const [photoToMove, setPhotoToMove] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
@@ -22,6 +22,15 @@ export default function Exhibit() {
     const parsedCollection = JSON.parse(collection);
     setMuseumCollection(parsedCollection);
   }, [cleared, photoToMove]);
+
+  const handleEditButtonClick = () => {
+    if (editingOrder) {
+      setPhotoToMove(null);
+      setEditingOrder(false);
+    } else {
+      setEditingOrder(true);
+    }
+  };
 
   const openModal = () => {
     if (currentIndex === -1) setCurrentIndex(0);
@@ -41,6 +50,7 @@ export default function Exhibit() {
               ? "Your beautifully curated exhibition, well done you!"
               : "Works added to your collection will appear here."}
           </p>
+
           {museumCollection && museumCollection.length > 0 && (
             <button
               onClick={openModal}
@@ -53,6 +63,7 @@ export default function Exhibit() {
             </button>
           )}
         </div>
+
         <div className="grid grid-cols-gallery">
           {museumCollection &&
             museumCollection.map((artwork, index) => (
@@ -62,8 +73,8 @@ export default function Exhibit() {
                 link={`gallery/${artwork.museum}/${artwork.id}`}
                 index={index}
                 key={`${artwork.museum}-${artwork.id}`}
-                editing={editing}
-                setEditing={setEditing}
+                editingOrder={editingOrder}
+                setEditingOrder={setEditingOrder}
                 photoToMove={photoToMove}
                 setPhotoToMove={setPhotoToMove}
                 museumCollection={museumCollection}
@@ -71,13 +82,30 @@ export default function Exhibit() {
             ))}
         </div>
         <div className="flex justify-center gap-4 pt-6">
-          <ClearButton setCleared={setCleared} />
+          <div className={`${editingOrder ? "collapse" : ""}`}>
+            <ClearButton setCleared={setCleared} />
+          </div>
           <button
-            onClick={() => setEditing(!editing)}
-            className={`bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded`}
+            onClick={handleEditButtonClick}
+            className={` hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded
+              ${editingOrder ? "bg-blue-500 text-white" : "bg-transparent"}`}
           >
-            Edit order
+            {editingOrder ? "Done" : "Edit order"}
           </button>
+          {editingOrder && (
+            <div
+              className="fixed flex gap-2 items-center md:left-44 bottom-24 md:bottom-11
+              bg-white p-2 border rounded z-50"
+            >
+              <p className="">Click to choose photo. Click again to insert</p>
+              <button
+                className="font-bold text-blue-700 border-blue-500 hover:bg-blue-500 border p-1 hover:border-transparent rounded hover:text-white "
+                onClick={handleEditButtonClick}
+              >
+                Done
+              </button>
+            </div>
+          )}
         </div>
         {modalOpen && museumCollection && (
           <ArtworkModal

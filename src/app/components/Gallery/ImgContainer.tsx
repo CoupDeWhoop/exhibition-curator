@@ -3,18 +3,18 @@ import Image from "next/image";
 import { chicagoImageLoader, harvardImageLoader } from "../../../lib/loader";
 import { NormalizedArtwork } from "@/models/normalizedSchema";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   artwork: NormalizedArtwork;
-  museumCollection: NormalizedArtwork[] | null;
+  museumCollection?: NormalizedArtwork[] | null;
   museum: string;
   link: string;
   index: number;
-  editing: boolean;
-  setEditing: Dispatch<SetStateAction<boolean>>;
-  photoToMove: number | null;
-  setPhotoToMove: Dispatch<SetStateAction<number | null>>;
+  editingOrder?: boolean;
+  setEditingOrder?: Dispatch<SetStateAction<boolean>>;
+  photoToMove?: number | null;
+  setPhotoToMove?: Dispatch<SetStateAction<number | null>>;
 };
 
 export function chooseLoader(museum: string) {
@@ -30,15 +30,43 @@ export default function ImgContainer({
   artwork,
   museumCollection,
   museum,
-  editing,
-  setEditing,
+  editingOrder,
+  setEditingOrder,
   photoToMove,
   setPhotoToMove,
   link,
   index,
 }: Props) {
+  const ArtworkImage = () => {
+    return (
+      <div className="group relative">
+        <div
+          className={`${
+            index === photoToMove ? "bg-green-400 border-red-500 border-4" : ""
+          }`}
+        >
+          <Image
+            loader={chooseLoader(museum)}
+            src={artwork.imageUrl}
+            alt={artwork.altText || artwork.title}
+            height={artwork.height}
+            width={artwork.width}
+            sizes="(min-width: 1360px) 272px, (min-width: 1100px) calc(18.75vw + 21px), (min-width: 840px) calc(33.33vw - 48px), (min-width: 560px) calc(50vw - 48px), calc(100vw - 48px)"
+            className={`w-full h-full max-h-[600px] object-contain group-hover:opacity-75 ${
+              editingOrder ? "opacity-40" : ""
+            } `}
+          />
+          {editingOrder && (
+            <div className="absolute top-10 right-10  text-red-400 ">
+              <p className="text-4xl">{index + 1}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
   const handleEditCollection = () => {
-    if (!editing || !museumCollection) return;
+    if (!editingOrder || !museumCollection || !setPhotoToMove) return;
 
     if (!photoToMove) {
       setPhotoToMove(index);
@@ -61,40 +89,25 @@ export default function ImgContainer({
       style={{ gridRow: `span ${photoSpans}` }}
       onClick={handleEditCollection}
     >
-      <Link href={editing ? "" : link}>
-        <div className="group relative">
-          <Image
-            loader={chooseLoader(museum)}
-            src={artwork.imageUrl}
-            alt={artwork.altText || artwork.title}
-            height={artwork.height}
-            width={artwork.width}
-            sizes="(min-width: 1360px) 272px, (min-width: 1100px) calc(18.75vw + 21px), (min-width: 840px) calc(33.33vw - 48px), (min-width: 560px) calc(50vw - 48px), calc(100vw - 48px)"
-            // placeholder="blur"
-            // blurDataURL={artwork.blurredDataUrl}
-            className={` w-full h-full max-h-[600px] object-contain group-hover:opacity-75 ${
-              editing ? "opacity-10" : ""
-            }`}
-          />
-          {editing && (
-            <p className="absolute top-10 right-10 font-bold text-red-400">
-              Click to choose photo. <br /> Click again to move
-            </p>
-          )}
-        </div>
+      {editingOrder ? (
+        <ArtworkImage />
+      ) : (
+        <Link href={link}>
+          <ArtworkImage />
+        </Link>
+      )}
 
-        <div className="pt-4 pb-4">
-          <h2 className="sm:text-2xl truncate whitespace-normal line-clamp-2">
-            {`${artwork.title}${
-              artwork.dateDisplay ? `, ${artwork.dateDisplay}` : ""
-            }`}
-          </h2>
+      <div className="pt-4 pb-4">
+        <h2 className="sm:text-2xl truncate whitespace-normal line-clamp-2">
+          {`${artwork.title}${
+            artwork.dateDisplay ? `, ${artwork.dateDisplay}` : ""
+          }`}
+        </h2>
 
-          <p className="sm:text-lg pt-2 text-gray-500 truncate whitespace-normal">
-            {artwork.artistTitle ?? artwork.culture}
-          </p>
-        </div>
-      </Link>
+        <p className="sm:text-lg pt-2 text-gray-500 truncate whitespace-normal">
+          {artwork.artistTitle ?? artwork.culture}
+        </p>
+      </div>
     </div>
   );
 }
