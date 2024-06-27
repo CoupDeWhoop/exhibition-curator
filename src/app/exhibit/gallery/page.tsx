@@ -21,7 +21,7 @@ export default function Exhibit() {
     const collection = localStorage.getItem("collection") || "[]";
     const parsedCollection = JSON.parse(collection);
     setMuseumCollection(parsedCollection);
-  }, [collectionUpdated, collectionUpdated]);
+  }, [collectionUpdated]);
 
   const handleEditButtonClick = () => {
     if (editingOrder) {
