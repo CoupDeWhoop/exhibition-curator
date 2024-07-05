@@ -4,12 +4,27 @@ import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
 import { NormalizedArtworksResults } from "@/models/normalizedSchema";
 import ImageGrid from "./ImageGrid";
-import { generateChicagoURL, generateHarvardURL } from "@/lib/url-utils";
+import {
+  generateChicagoURL,
+  generateHarvardURL,
+  URLDetails,
+} from "@/lib/url-utils";
 
 type Props = {
-  museum?: string | undefined;
+  museum?: "chicago" | "harvard";
   topic?: string | undefined;
   page?: string | undefined;
+};
+
+const generateMuseumURL = (urlDetails: URLDetails): string | null => {
+  switch (urlDetails.museum) {
+    case "chicago":
+      return generateChicagoURL(urlDetails);
+    case "harvard":
+      return generateHarvardURL(urlDetails);
+    default:
+      return null;
+  }
 };
 
 export default async function Gallery({
@@ -17,26 +32,24 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
-  let url;
-  let artworks: NormalizedArtworksResults | undefined;
-  const urlDetails: {
-    path: string;
-    page?: string;
-  } = {
+  const urlDetails: URLDetails = {
+    museum,
     path: topic === "artworks" ? "/artworks" : "/search",
-    page,
+    searchTopic: topic === "artworks" ? null : topic,
   };
 
-  if (museum === "chicago") {
-    url = generateChicagoURL(urlDetails);
-  } else if (museum === "harvard") {
-    url = generateHarvardURL(urlDetails);
-  } else {
-    url =
-      "https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=40";
+  const url = generateMuseumURL(urlDetails);
+
+  if (!url) {
+    return (
+      <>
+        <h1>Oops! Something has gone wrong</h1>
+        <p>Please try again later</p>
+      </>
+    );
   }
 
-  artworks = await fetchArtworks(url, museum);
+  const artworks = await fetchArtworks(url, museum);
 
   if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;
