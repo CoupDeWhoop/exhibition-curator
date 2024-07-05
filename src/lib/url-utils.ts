@@ -2,7 +2,7 @@ const LIMIT = "20";
 const harvardKey: string | undefined = process.env.HARVARD_ACCESS_KEY;
 
 export type URLDetails = {
-  museum: "chicago" | "harvard";
+  museum: string;
   route: string | null;
   page?: string;
   searchTopic: string | null;
@@ -15,7 +15,6 @@ export function generateChicagoURL(urlDetails: URLDetails) {
 
   const url = new URL(baseUrl);
   url.pathname = "api/v1/artworks";
-  console.log(url, url.pathname);
   if (urlDetails.route) url.pathname += `/${urlDetails.route}`;
   url.searchParams.append("fields", selectedFields);
   url.searchParams.append("limit", LIMIT);

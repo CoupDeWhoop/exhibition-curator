@@ -11,7 +11,7 @@ import {
 } from "@/lib/url-utils";
 
 type Props = {
-  museum?: "chicago" | "harvard";
+  museum?: string;
   topic?: string | undefined;
   page?: string | undefined;
 };

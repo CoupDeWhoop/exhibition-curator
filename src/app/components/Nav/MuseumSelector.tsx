@@ -28,7 +28,7 @@ export default function MuseumSelector() {
       setSearchQueries({});
       setSearchPages({ harvard: "", chicago: "" });
     }
-  }, [pathname]);
+  }, [pathname, museum, route, query, page]);
 
   return (
     <section className="max-w-7xl px-4 mx-auto py-6 border-b-[1px] border-gray-200">
