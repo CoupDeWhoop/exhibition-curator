@@ -11,7 +11,7 @@ export default function Search() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (museum === "exhibit") {
+    if (!museum || museum === "exhibit") {
       router.push(`/chicago/results/${search}`);
     } else {
       router.push(`/${museum}/results/${search}`);
