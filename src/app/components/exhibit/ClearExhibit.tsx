@@ -17,7 +17,7 @@ export default function ClearButton({ setCollectionUpdated }: Props) {
     let parsedCollection;
 
     const localCollection = localStorage.getItem("collection") || "[]";
-    if (collection) parsedCollection = JSON.parse(localCollection);
+    parsedCollection = JSON.parse(localCollection);
     setCollection(parsedCollection);
   }, []);
 

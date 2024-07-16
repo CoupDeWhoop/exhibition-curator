@@ -4,11 +4,27 @@ import getPrevNextPage from "@/lib/getPrevNextPage";
 import Footer from "./Footer";
 import { NormalizedArtworksResults } from "@/models/normalizedSchema";
 import ImageGrid from "./ImageGrid";
+import {
+  generateChicagoURL,
+  generateHarvardURL,
+  URLDetails,
+} from "@/lib/url-utils";
 
 type Props = {
-  museum?: string | undefined;
+  museum?: string;
   topic?: string | undefined;
   page?: string | undefined;
+};
+
+const generateMuseumURL = (urlDetails: URLDetails): string | null => {
+  switch (urlDetails.museum) {
+    case "chicago":
+      return generateChicagoURL(urlDetails);
+    case "harvard":
+      return generateHarvardURL(urlDetails);
+    default:
+      return null;
+  }
 };
 
 export default async function Gallery({
@@ -16,45 +32,25 @@ export default async function Gallery({
   topic = "artworks",
   page,
 }: Props) {
-  let limit = (20).toString();
-  let url;
-  let artworks: NormalizedArtworksResults | undefined;
+  const urlDetails: URLDetails = {
+    museum,
+    page,
+    route: topic === "artworks" ? null : "search",
+    searchTopic: topic === "artworks" ? null : topic,
+  };
 
-  switch (museum) {
-    case "chicago": {
-      if (topic === "artworks" && page) {
-        // browsing beyond home
-        url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
-      } else if (topic === "artworks") {
-        // home
-        url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&limit=${limit}`;
-      } else if (!page) {
-        // 1st page of search results
-        url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&limit=${limit}`;
-      } else {
-        // search results beyond first page
-        url = `https://api.artic.edu/api/v1/artworks/search?q=${topic}&fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
-      }
-      break;
-    }
-    case "harvard": {
-      if (topic === "artworks" && page) {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings&page=${page}`;
-      } else if (topic === "artworks") {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&century=18th%20century&classification=Paintings`;
-      } else if (!page) {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}`;
-      } else {
-        url = `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_ACCESS_KEY}&size=${limit}&q=${topic}&page=${page}`;
-      }
-      break;
-    }
-    default: {
-      url = `https://api.artic.edu/api/v1/artworks?fields=id,title,image_id,thumbnail,date_display,artist_title&page=${page}&limit=${limit}`;
-    }
+  const url = generateMuseumURL(urlDetails);
+
+  if (!url) {
+    return (
+      <>
+        <h1>Oops! Something has gone wrong</h1>
+        <p>Please try again later</p>
+      </>
+    );
   }
 
-  artworks = await fetchArtworks(url, museum);
+  const artworks = await fetchArtworks(url, museum);
 
   if (!artworks! || artworks.pagination?.totalRecords === 0)
     return <h2 className="m-4 text-2xl font-bold">No Artworks Found</h2>;

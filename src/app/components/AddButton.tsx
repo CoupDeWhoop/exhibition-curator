@@ -20,7 +20,7 @@ export default function AddButton({ artwork }: Props) {
     if (parsedCollection.some((item) => item.id === artwork.id)) {
       setSubmitted(true);
     }
-  }, []);
+  }, [artwork]);
 
   function saveToLocalStorage() {
     setSubmitted(true);
