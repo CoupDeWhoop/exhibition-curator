@@ -35,7 +35,7 @@ export default async function Gallery({
   const urlDetails: URLDetails = {
     museum,
     page,
-    route: topic === "artworks" ? null : "search",
+    route: topic === "artworks" ? "/artworks" : "/search",
     searchTopic: topic === "artworks" ? null : topic,
   };
 
