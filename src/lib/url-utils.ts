@@ -15,7 +15,7 @@ export function generateChicagoURL(urlDetails: URLDetails) {
 
   const url = new URL(baseUrl);
   url.pathname = "api/v1/artworks";
-  if (urlDetails.route) url.pathname += `/${urlDetails.route}`;
+  if (urlDetails.route !== "/artworks") url.pathname += urlDetails.route;
   url.searchParams.append("fields", selectedFields);
   url.searchParams.append("limit", LIMIT);
   if (urlDetails.searchTopic) url.searchParams.set("q", urlDetails.searchTopic);
@@ -35,17 +35,24 @@ export function generateHarvardURL(urlDetails: URLDetails) {
   });
 
   const url = new URL(baseUrl);
-  //chicago path is always /object
+  //harvard path is always /object
   url.pathname = "object";
   url.searchParams.append("apikey", harvardKey);
   url.searchParams.append("size", LIMIT);
+  url.searchParams.append("hasimage", "1");
+
+  let query = "imagepermissionlevel:0";
+  if (urlDetails.searchTopic) {
+    query += ` AND ${urlDetails.searchTopic}`;
+  }
+  url.searchParams.append("q", query);
+
   if (urlDetails.route === "/artworks") {
     homePathParams.forEach((value, key) => {
       url.searchParams.append(key, value);
     });
   }
-  if (urlDetails.searchTopic)
-    url.searchParams.append("q", urlDetails.searchTopic);
+
   if (urlDetails.page) url.searchParams.append("page", urlDetails.page);
 
   return url.href;
